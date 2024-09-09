@@ -1,6 +1,6 @@
 fun main() {
     val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
-    val student2 = Student(2, "Ивановв", "Иван", "Иванович")
+    val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
 
     println("Информация о студентах:")
     student1.stringify()
