@@ -21,12 +21,17 @@ GitHub: ${github ?: "Не указан"}
     }
 
     companion object {
+        fun isValidPhoneNumber(phone: String): Boolean {
+            val phoneRegex = Regex("^[+]?[0-9-]{10,15}$")
+            return phoneRegex.matches(phone)
+        }
+
         fun fromMap(map: Map<String, Any?>): Student {
             return Student(
-                id = map["id"] as? Int ?: throw IllegalArgumentException("ID обязателен"),
-                lastName = map["lastName"] as? String ?: throw IllegalArgumentException("Фамилия обязательна"),
-                firstName = map["firstName"] as? String ?: throw IllegalArgumentException("Имя обязательно"),
-                middleName = map["middleName"] as? String ?: throw IllegalArgumentException("Отчество обязательно"),
+                id = map["id"] as? Int ?: throw IllegalArgumentException("id is required"),
+                lastName = map["lastName"] as? String ?: throw IllegalArgumentException("lastName is required"),
+                firstName = map["firstName"] as? String ?: throw IllegalArgumentException("firstName is required"),
+                middleName = map["middleName"] as? String ?: throw IllegalArgumentException("middleName is required"),
                 phone = map["phone"] as? String,
                 telegram = map["telegram"] as? String,
                 email = map["email"] as? String,
