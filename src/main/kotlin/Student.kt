@@ -1,80 +1,31 @@
 class Student(
-    val id: Int,
+    val id: Int = generateId(),
     var lastName: String,
     var firstName: String,
     var middleName: String,
-    phone: String? = null,
-    telegram: String? = null,
-    email: String? = null,
-    github: String? = null
+    var phone: String? = null,
+    var telegram: String? = null,
+    var email: String? = null,
+    var github: String? = null
 ) {
-    constructor(
-        lastName: String,
-        firstName: String,
-        middleName: String,
-        phone: String?=null,
-        telegram: String? = null,
-        email: String? = null,
-        github: String? = null
-    ) : this(
-        id = generateId(),
-        lastName = lastName,
-        firstName = firstName,
-        middleName = middleName,
-        phone = phone,
-        telegram = telegram,
-        email = email,
-        github = github
-    )
-
-    var phone: String? = phone
-        set(value) {
-            if (value != null && !isValidPhoneNumber(value)) {
-                throw IllegalArgumentException("Invalid phone format")
-            }
-            field = value
-        }
-
-    var telegram: String? = telegram
-        set(value) {
-            if (value != null && !isValidTelegramHandle(value)) {
-                throw IllegalArgumentException("Invalid Telegram handle format")
-            }
-            field = value
-        }
-
-    var email: String? = email
-        set(value) {
-            if (value != null && !isValidEmail(value)) {
-                throw IllegalArgumentException("Invalid email format")
-            }
-            field = value
-        }
-
-    var github: String? = github
-        set(value) {
-            if (value != null && !isValidGithubUsername(value)) {
-                throw IllegalArgumentException("Invalid GitHub username format")
-            }
-            field = value
-        }
 
     init {
-        if (phone != null && !isValidPhoneNumber(phone)) {
+        if (phone != null && !isValidPhoneNumber(phone!!)) {
             throw IllegalArgumentException("Invalid phone number format")
         }
 
-        if (telegram != null && !isValidTelegramHandle(telegram)) {
+        if (telegram != null && !isValidTelegramHandle(telegram!!)) {
             throw IllegalArgumentException("Invalid Telegram handle format")
         }
 
-        if (email != null && !isValidEmail(email)) {
+        if (email != null && !isValidEmail(email!!)) {
             throw IllegalArgumentException("Invalid email format")
         }
 
-        if (github != null && !isValidGithubUsername(github)) {
+        if (github != null && !isValidGithubUsername(github!!)) {
             throw IllegalArgumentException("Invalid GitHub username format")
         }
+        validate()
     }
 
     private fun isValidPhoneNumber(phone: String): Boolean {
@@ -98,7 +49,7 @@ class Student(
     }
 
     constructor(data: HashMap<String, Any?>) : this(
-        id = data["id"] as? Int ?: throw IllegalArgumentException("ID is required"),
+        id = generateId(),
         lastName = data["lastName"] as? String ?: "",
         firstName = data["firstName"] as? String ?: "",
         middleName = data["middleName"] as? String ?: "",
@@ -126,6 +77,12 @@ class Student(
         if (!hasAnyContactinfo()){
             println("Doesn't have any contact information")
         }
+    }
+
+    fun setContacts(phone: String? = this.phone, telegram: String? = this.telegram, email: String? = this.email) {
+        if (phone != null) this.phone = phone
+        if (telegram != null) this.telegram = telegram
+        if (email != null) this.email = email
     }
 
     private fun hasGitHub(): Boolean{
