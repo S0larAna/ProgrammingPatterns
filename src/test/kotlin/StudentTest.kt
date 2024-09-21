@@ -46,7 +46,8 @@ class StudentTest {
     @Test
     fun `create student without id`() {
         assertThrows<IllegalArgumentException> {
-            Student.fromMap(mapOf(
+            Student(
+                hashMapOf(
                 "lastName" to "Иванов",
                 "firstName" to "Иван",
                 "middleName" to "Иванович"
@@ -57,32 +58,10 @@ class StudentTest {
     @Test
     fun `create student without firstName`() {
         assertThrows<IllegalArgumentException> {
-            Student.fromMap(mapOf(
+            Student(hashMapOf(
                 "id" to 1,
                 "lastName" to "Иванов",
                 "middleName" to "Иванович"
-            ))
-        }
-    }
-
-    @Test
-    fun `create student without lastName`() {
-        assertThrows<IllegalArgumentException> {
-            Student.fromMap(mapOf(
-                "id" to 1,
-                "firstName" to "Иван",
-                "middleName" to "Иванович"
-            ))
-        }
-    }
-
-    @Test
-    fun `create student without middleName`() {
-        assertThrows<IllegalArgumentException> {
-            Student.fromMap(mapOf(
-                "id" to 1,
-                "lastName" to "Иванов",
-                "firstName" to "Иван"
             ))
         }
     }

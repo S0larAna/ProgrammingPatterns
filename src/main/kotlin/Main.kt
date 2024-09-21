@@ -20,4 +20,7 @@ fun main() {
 
     student2.phone = "+79876543210"
     student2.email = "example@example.com"
+
+    val student4 = Student("Иванов", "Иван", "Иванович")
+    student4.validate()
 }
