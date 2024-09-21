@@ -1,15 +1,17 @@
 fun main() {
     val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
     val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
-    val studentData = mapOf(
+    val data: HashMap<String, Any?> = hashMapOf(
         "id" to 3,
-        "lastName" to "Сидоров",
-        "firstName" to "Алексей",
-        "middleName" to "Владимирович",
-        "telegram" to "@alexsid",
-        "github" to "alexsid"
+        "lastName" to "Doe",
+        "firstName" to "John",
+        "middleName" to "A.",
+        "phone" to "+1234567890",
+        "telegram" to "@johndoe",
+        "email" to "john.doe@example.com",
+        "github" to "johndoe"
     )
-    val student3 = Student.fromMap(studentData)
+    val student3 = Student(data)
 
     println("Информация о студентах:")
     println(student1.toString())
