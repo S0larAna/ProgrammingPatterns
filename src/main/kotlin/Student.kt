@@ -95,6 +95,28 @@ class Student(
         return !phone.isNullOrEmpty() || !telegram.isNullOrEmpty() || !email.isNullOrEmpty()
     }
 
+    fun getInfo(): String {
+        return "${getNameInfo()} | ${getGithubInfo()} | ${getContactInfo()}"
+    }
+
+    fun getNameInfo(): String {
+        val initials = "${firstName.first()}. ${middleName.first()}."
+        return "$lastName $initials"
+    }
+
+    fun getGithubInfo(): String {
+        return github?.let { "GitHub: $it" } ?: "GitHub: не указан"
+    }
+
+    fun getContactInfo(): String {
+        return when {
+            phone != null -> "Телефон: $phone"
+            telegram != null -> "Telegram: $telegram"
+            email != null -> "Email: $email"
+            else -> "Контакты: не указаны"
+        }
+    }
+
     companion object {
 
         private var currentId = 0
