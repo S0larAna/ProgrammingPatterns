@@ -22,4 +22,7 @@ fun main() {
     student2.email = "example@example.com"
 
     val student4 = Student(lastName = "Иванов", firstName = "Иван", middleName = "Иванович")
+
+    val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:ivanov-github")
+    println(student5)
 }

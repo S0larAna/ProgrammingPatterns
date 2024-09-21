@@ -28,6 +28,8 @@ class Student(
         validate()
     }
 
+    constructor(dataString: String) : this(parseDataString(dataString))
+
     private fun isValidPhoneNumber(phone: String): Boolean {
         val regex = Regex("^\\+?[0-9]{10,13}\$")
         return regex.matches(phone)
@@ -98,6 +100,26 @@ class Student(
         private var currentId = 0
         private fun generateId(): Int {
             return ++currentId
+        }
+
+        private fun parseDataString(dataString: String): HashMap<String, Any?> {
+            val data = HashMap<String, Any?>()
+            val pairs = dataString.split(",")
+
+            for (pair in pairs) {
+                val (key, value) = pair.split(":").map { it.trim() }
+                when (key) {
+                    "lastName", "firstName", "middleName" -> data[key] = value
+                    "phone", "telegram", "email", "github" -> if (value.isNotEmpty()) data[key] = value
+                    else -> throw IllegalArgumentException("Unknown key: $key")
+                }
+            }
+
+            if (!data.containsKey("lastName") || !data.containsKey("firstName") || !data.containsKey("middleName")) {
+                throw IllegalArgumentException("Missing required fields")
+            }
+
+            return data
         }
     }
 }
