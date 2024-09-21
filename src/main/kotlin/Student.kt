@@ -1,3 +1,7 @@
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+
 class Student(
     val id: Int = generateId(),
     var lastName: String,
@@ -53,10 +57,10 @@ class Student(
     }
 
     fun validate() {
-        if (!hasGitHub()){
+        if (!hasGitHub()) {
             println("Doesn't have GitHub")
         }
-        if (!hasAnyContactinfo()){
+        if (!hasAnyContactinfo()) {
             println("Doesn't have any contact information")
         }
     }
@@ -67,11 +71,11 @@ class Student(
         if (email != null) this.email = email
     }
 
-    private fun hasGitHub(): Boolean{
+    private fun hasGitHub(): Boolean {
         return (github.isNullOrEmpty())
     }
 
-    private fun hasAnyContactinfo(): Boolean{
+    private fun hasAnyContactinfo(): Boolean {
         return !phone.isNullOrEmpty() || !telegram.isNullOrEmpty() || !email.isNullOrEmpty()
     }
 
@@ -91,6 +95,79 @@ class Student(
             telegram != null -> "Telegram: $telegram"
             email != null -> "Email: $email"
             else -> "Контакты: не указаны"
+        }
+    }
+
+    fun toFileString(): String {
+        return "lastName: $lastName, " +
+                "firstName: $firstName, " +
+                "middleName: $middleName, " +
+                "phone: ${phone ?: ""}, " +
+                "telegram: ${telegram ?: ""}, " +
+                "email: ${email ?: ""}, " +
+                "github: ${github ?: ""}"
+    }
+
+    companion object {
+        fun writeToTxt(directoryPath: String, fileName: String, students: List<Student>) {
+            val directory = File(directoryPath)
+            if (!directory.exists()) {
+                if (!directory.mkdirs()) {
+                    throw IOException("Failed to create directory: $directoryPath")
+                }
+            }
+
+            if (!directory.isDirectory) {
+                throw IllegalArgumentException("The provided path is not a directory: $directoryPath")
+            }
+
+            val file = File(directory, fileName)
+
+            try {
+                file.bufferedWriter().use { writer ->
+                    students.forEach { student ->
+                        val line = student.toFileString()
+                        writer.write(line)
+                        writer.newLine()
+                    }
+                }
+                println("Successfully wrote ${students.size} students to ${file.absolutePath}")
+            } catch (e: IOException) {
+                throw IOException("Error writing to file: ${file.absolutePath}", e)
+            }
+        }
+
+        fun readFromText(filePath: String): List<Student> {
+            val students = mutableListOf<Student>()
+            try {
+                val file = File(filePath)
+
+                if (!file.exists()) {
+                    throw FileNotFoundException("File not found: $filePath")
+                }
+
+                if (!file.isFile || !file.canRead()) {
+                    throw IllegalArgumentException("Invalid file or no read permissions: $filePath")
+                }
+
+                file.useLines { lines ->
+                    for (line in lines) {
+                        try {
+                            val student = Student(line)
+                            students.add(student)
+                        } catch (e: IllegalArgumentException) {
+                            println("Error parsing line: $line")
+                            println("Error message: ${e.message}")
+                        }
+                    }
+                }
+
+            } catch (e: FileNotFoundException) {
+                println("Файл не найден: ${e.message}")
+            } catch (e: IllegalArgumentException) {
+                println("Ошибка при чтении файла: ${e.message}")
+            }
+            return students
         }
     }
 }
