@@ -3,7 +3,7 @@ class Student_short(
     val nameWithInitials: String,
     val github: String,
     val contact: String
-) : StudentBase() {
+) : StudentBase(), Comparable<Student_short> {
     constructor(student: Student) : this(
         id = student.id,
         nameWithInitials = student.getNameInfo(),
@@ -24,5 +24,19 @@ class Student_short(
 
     override fun toString(): String {
         return getInfo()
+    }
+
+    override fun compareTo(other: Student_short): Int {
+        return this.nameWithInitials.compareTo(other.nameWithInitials)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Student_short) return false
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id
     }
 }

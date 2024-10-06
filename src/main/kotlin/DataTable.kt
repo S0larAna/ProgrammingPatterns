@@ -1,4 +1,4 @@
-class Data_table(private val data: Array<Array<Any?>>) {
+class Data_table(private val data: Array<Array<String>>) {
 
     val rowCount: Int
         get() = data.size
