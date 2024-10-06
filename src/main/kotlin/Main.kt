@@ -11,7 +11,7 @@ fun main() {
         "phone" to "+1234567890",
         "telegram" to "@johndoe",
         "email" to "john.doe@example.com",
-        "github" to "johndoe"
+        "github" to "https://github.com/johndoe"
     )
     val student3 = Student(data)
 
@@ -20,8 +20,9 @@ fun main() {
     println(student2.toString())
     println(student3.toString())
 
-    student2.phone = "+79876543210"
-    student2.email = "example@example.com"
+    student2.phone = "+123456"
+    student2.firstName = "Имя"
+    println(student2.toString())
 
     val student4 = Student(lastName = "Иванов", firstName = "Иван", middleName = "Иванович")
 

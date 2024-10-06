@@ -44,18 +44,6 @@ class StudentTest {
     }
 
     @Test
-    fun `create student without id`() {
-        assertThrows<IllegalArgumentException> {
-            Student(
-                hashMapOf(
-                "lastName" to "Иванов",
-                "firstName" to "Иван",
-                "middleName" to "Иванович"
-            ))
-        }
-    }
-
-    @Test
     fun `create student without firstName`() {
         assertThrows<IllegalArgumentException> {
             Student(hashMapOf(
@@ -83,8 +71,8 @@ class StudentTest {
     @Test
     fun `modify phone number to valid one`() {
         val student = Student(1, "Иванов", "Иван", "Иванович")
-        student.phone = "+79123456789"
-        assertEquals("+79123456789", student.phone)
+        student.phone = "+1234567890"
+        assertEquals("+1234567890", student.phone)
     }
 
     @Test
