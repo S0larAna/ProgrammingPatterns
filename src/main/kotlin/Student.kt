@@ -11,7 +11,7 @@ class Student(
     telegram: String? = null,
     email: String? = null,
     github: String? = null
-) {
+): StudentBase() {
 
     init {
         if (phone != null && !isValidPhoneNumber(phone)) {
@@ -106,6 +106,8 @@ class Student(
         github = data["github"] as? String
     )
 
+    constructor(dataString: String) : this(parseDataString(dataString))
+
     override fun toString(): String {
         return """
             Студент ID: $id
@@ -142,7 +144,7 @@ class Student(
 
 
     fun getNameInfo(): String {
-        val initials = "${firstName.first()}. ${middleName.first()}."
+        val initials = "${firstName?.first()}. ${middleName?.first()}."
         return "$lastName $initials"
     }
 
