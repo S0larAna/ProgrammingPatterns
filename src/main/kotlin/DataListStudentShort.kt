@@ -4,7 +4,7 @@ class Data_list_student_short(students: List<Student_short>) : Data_list<Student
         return data.map { it.nameWithInitials }
     }
 
-    override fun get_data(): Data_table {
+    override fun get_rows(): Array<Array<String>> {
         val rows = Array(data.size) { index ->
             val student = data[index]
             arrayOf(
@@ -14,6 +14,6 @@ class Data_list_student_short(students: List<Student_short>) : Data_list<Student
                 student.contact
             )
         }
-        return Data_table(rows)
+        return rows
     }
 }

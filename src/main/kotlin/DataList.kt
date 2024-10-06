@@ -44,5 +44,9 @@ abstract class Data_list<T : Comparable<T>> {
     fun clearSelection() {
         selected.clear()
     }
-    abstract fun get_data(): Data_table
+    fun get_data(): Data_table{
+        val rows = get_rows()
+        return Data_table(rows)
+    }
+    abstract protected fun get_rows(): Array<Array<String>>
 }
