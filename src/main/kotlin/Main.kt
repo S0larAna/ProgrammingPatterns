@@ -20,15 +20,10 @@ fun main() {
     println(student2.toString())
     println(student3.toString())
 
-    student2.phone = "+123456"
-    student2.firstName = "Имя"
-    println(student2.toString())
-
     val student4 = Student(lastName = "Иванов", firstName = "Иван", middleName = "Иванович")
 
-    val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:ivanov-github")
-    println(student5)
-    val students = Student.readFromText("src/main/resources/students.txt")
-    println("Прочитано ${students.size} студентов:")
-    students.forEach { println(it) }
+    //val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:ivanov-github")
+    //println(student5)
+    val studentsList = StudentsListTxt("src/main/resources/students.txt")
+    studentsList.students.forEach() { println(it) }
 }

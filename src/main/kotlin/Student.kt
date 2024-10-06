@@ -206,39 +206,6 @@ class Student(
             }
         }
 
-        fun readFromText(filePath: String): List<Student> {
-            val students = mutableListOf<Student>()
-            try {
-                val file = File(filePath)
-
-                if (!file.exists()) {
-                    throw FileNotFoundException("File not found: $filePath")
-                }
-
-                if (!file.isFile || !file.canRead()) {
-                    throw IllegalArgumentException("Invalid file or no read permissions: $filePath")
-                }
-
-                file.useLines { lines ->
-                    for (line in lines) {
-                        try {
-                            val student = Student(line)
-                            students.add(student)
-                        } catch (e: IllegalArgumentException) {
-                            println("Error parsing line: $line")
-                            println("Error message: ${e.message}")
-                        }
-                    }
-                }
-
-            } catch (e: FileNotFoundException) {
-                println("Файл не найден: ${e.message}")
-            } catch (e: IllegalArgumentException) {
-                println("Ошибка при чтении файла: ${e.message}")
-            }
-            return students
-        }
-
         private fun isValidPhoneNumber(phone: String): Boolean {
             val regex = Regex("^\\+?[0-9]{10,13}\$")
             return regex.matches(phone)
