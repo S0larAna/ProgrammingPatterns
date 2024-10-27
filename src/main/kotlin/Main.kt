@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException
-
 fun main() {
     val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
     val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
@@ -22,8 +20,21 @@ fun main() {
 
     val student4 = Student(lastName = "Иванов", firstName = "Иван", middleName = "Иванович")
 
-    //val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:ivanov-github")
-    //println(student5)
-    val studentsList = StudentsListTxt("src/main/resources/students.txt")
-    studentsList.students.forEach() { println(it) }
+    val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:https://github.com/johndoe")
+    println(student5)
+    val students = Student.readFromTxt("src/main/resources/students.txt")
+    println("Прочитано ${students.size} студентов:")
+    students.forEach { println(it) }
+    Student.writeToTxt("src/main/resources", "students_output.txt", students)
+    val students_test = Student.readFromTxt("src/main/resources/students_output.txt")
+    val shortStudentList = mutableListOf<Student_short>()
+    for (student in students_test){
+        shortStudentList.add(Student_short(student))
+    }
+    val datalist = Data_list_student_short(shortStudentList)
+    for (item in datalist.getDataList()){
+        println(item)
+    }
+    val datatable = datalist.get_data()
+    println(datatable)
 }

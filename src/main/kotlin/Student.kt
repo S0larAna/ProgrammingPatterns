@@ -11,7 +11,7 @@ class Student(
     telegram: String? = null,
     email: String? = null,
     github: String? = null
-): StudentBase() {
+): StudentBase(), Comparable<Student> {
 
     init {
         if (phone != null && !isValidPhoneNumber(phone)) {
@@ -108,6 +108,10 @@ class Student(
 
     constructor(dataString: String) : this(parseDataString(dataString))
 
+    override fun compareTo(other: Student): Int {
+        return this.id.compareTo(other.id)
+    }
+
     override fun toString(): String {
         return """
             Студент ID: $id
@@ -162,13 +166,13 @@ class Student(
     }
 
     fun toFileString(): String {
-        return "lastName: $lastName, " +
-                "firstName: $firstName, " +
-                "middleName: $middleName, " +
-                "phone: ${phone ?: ""}, " +
-                "telegram: ${telegram ?: ""}, " +
-                "email: ${email ?: ""}, " +
-                "github: ${github ?: ""}"
+        return "lastName:$lastName," +
+                "firstName:$firstName," +
+                "middleName:$middleName," +
+                "phone:${phone ?: ""}," +
+                "telegram:${telegram ?: ""}," +
+                "email:${email ?: ""}," +
+                "github:${github ?: ""}"
     }
 
     companion object {
@@ -204,6 +208,31 @@ class Student(
             } catch (e: IOException) {
                 throw IOException("Error writing to file: ${file.absolutePath}", e)
             }
+        }
+
+        fun readFromTxt(filePath: String): List<Student> {
+            val students = mutableListOf<Student>()
+            try {
+                val file = File(filePath)
+
+                file.useLines { lines ->
+                    for (line in lines) {
+                        try {
+                            val student = Student(line)
+                            students.add(student)
+                        } catch (e: IllegalArgumentException) {
+                            println("Error parsing line: $line")
+                            println("Error message: ${e.message}")
+                        }
+                    }
+                }
+
+            } catch (e: FileNotFoundException) {
+                println(e.message)
+            } catch (e: IllegalArgumentException) {
+                println(e.message)
+            }
+            return students
         }
 
         private fun isValidPhoneNumber(phone: String): Boolean {

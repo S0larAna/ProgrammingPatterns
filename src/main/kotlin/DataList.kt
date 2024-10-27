@@ -1,6 +1,6 @@
 abstract class Data_list<T : Comparable<T>> {
-    protected val data: MutableList<T>
-    private val selected: MutableSet<Int> = mutableSetOf()
+    protected var data: MutableList<T>
+    protected var selected: MutableSet<Int> = mutableSetOf()
 
     val size: Int
         get() = data.size
@@ -14,6 +14,10 @@ abstract class Data_list<T : Comparable<T>> {
             throw IndexOutOfBoundsException("Invalid index: $index")
         }
         return data[index]
+    }
+
+    fun getDataList(): MutableList<T> {
+        return this.data
     }
 
     fun indexOf(element: T): Int {
@@ -39,14 +43,15 @@ abstract class Data_list<T : Comparable<T>> {
         return selected.sorted().map { data[it] }
     }
 
-    abstract fun get_names(): List<String>
+    abstract fun get_names(): Array<Array<String>>
 
     fun clearSelection() {
         selected.clear()
     }
     fun get_data(): Data_table{
+        val names = get_names()
         val rows = get_rows()
-        return Data_table(rows)
+        return Data_table(names + rows)
     }
     abstract protected fun get_rows(): Array<Array<String>>
 }
