@@ -13,7 +13,8 @@ open class StudentBase {
             val pairs = dataString.split(",")
 
             for (pair in pairs) {
-                val (key, value) = pair.split(":").map { it.trim() }
+                println(pair)
+                val (key, value) = pair.split(":", limit=2).map { it.trim() }
                 when (key) {
                     "lastName", "firstName", "middleName" -> data[key] = value
                     "phone", "telegram", "email", "github" -> if (value.isNotEmpty()) data[key] = value

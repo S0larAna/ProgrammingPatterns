@@ -11,7 +11,7 @@ class Student(
     telegram: String? = null,
     email: String? = null,
     github: String? = null
-): StudentBase() {
+): StudentBase(), Comparable<Student> {
 
     init {
         if (phone != null && !isValidPhoneNumber(phone)) {
@@ -108,6 +108,10 @@ class Student(
 
     constructor(dataString: String) : this(parseDataString(dataString))
 
+    override fun compareTo(other: Student): Int {
+        return this.id.compareTo(other.id)
+    }
+
     override fun toString(): String {
         return """
             Студент ID: $id
@@ -162,13 +166,13 @@ class Student(
     }
 
     fun toFileString(): String {
-        return "lastName: $lastName, " +
-                "firstName: $firstName, " +
-                "middleName: $middleName, " +
-                "phone: ${phone ?: ""}, " +
-                "telegram: ${telegram ?: ""}, " +
-                "email: ${email ?: ""}, " +
-                "github: ${github ?: ""}"
+        return "lastName:$lastName," +
+                "firstName:$firstName," +
+                "middleName:$middleName," +
+                "phone:${phone ?: ""}," +
+                "telegram:${telegram ?: ""}," +
+                "email:${email ?: ""}," +
+                "github:${github ?: ""}"
     }
 
     companion object {
@@ -206,18 +210,10 @@ class Student(
             }
         }
 
-        fun readFromText(filePath: String): List<Student> {
+        fun readFromTxt(filePath: String): List<Student> {
             val students = mutableListOf<Student>()
             try {
                 val file = File(filePath)
-
-                if (!file.exists()) {
-                    throw FileNotFoundException("File not found: $filePath")
-                }
-
-                if (!file.isFile || !file.canRead()) {
-                    throw IllegalArgumentException("Invalid file or no read permissions: $filePath")
-                }
 
                 file.useLines { lines ->
                     for (line in lines) {
@@ -232,9 +228,9 @@ class Student(
                 }
 
             } catch (e: FileNotFoundException) {
-                println("Файл не найден: ${e.message}")
+                println(e.message)
             } catch (e: IllegalArgumentException) {
-                println("Ошибка при чтении файла: ${e.message}")
+                println(e.message)
             }
             return students
         }
