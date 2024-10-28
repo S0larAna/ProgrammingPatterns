@@ -6,7 +6,7 @@ class StudentsListTxt(private val filePath: String) {
     var students: MutableList<Student> = mutableListOf()
 
     init {
-        students = readFromText(filePath)
+        students = readFromTxt(filePath)
     }
 
     fun writeToTxt(directoryPath: String, fileName: String) {
@@ -72,7 +72,7 @@ class StudentsListTxt(private val filePath: String) {
     }
 
     companion object{
-        fun readFromText(filePath: String): MutableList<Student> {
+        fun readFromTxt(filePath: String): MutableList<Student> {
             val students = mutableListOf<Student>()
             try {
                 val file = File(filePath)

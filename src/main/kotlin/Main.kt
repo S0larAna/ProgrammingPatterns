@@ -1,5 +1,5 @@
 fun main() {
-    val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
+    /*val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
     val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
     val data: HashMap<String, Any?> = hashMapOf(
         "id" to 3,
@@ -22,10 +22,10 @@ fun main() {
 
     val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:https://github.com/johndoe")
     println(student5)
-    val students = Student.readFromTxt("src/main/resources/students.txt")
-    println("Прочитано ${students.size} студентов:")
-    students.forEach { println(it) }
-    Student.writeToTxt("src/main/resources", "students_output.txt", students)
+    val students = StudentsListTxt("src/main/resources/students.txt")
+    println("Прочитано ${students.students.size} студентов:")
+    students.students.forEach { println(it) }
+    Student.writeToTxt("src/main/resources", "students_output.txt", students.students)
     val students_test = Student.readFromTxt("src/main/resources/students_output.txt")
     val shortStudentList = mutableListOf<Student_short>()
     for (student in students_test){
@@ -36,5 +36,7 @@ fun main() {
         println(item)
     }
     val datatable = datalist.get_data()
-    println(datatable)
+    println(datatable)*/
+    val students = StudentsListJSON("src/main/resources/students.json")
+    students.writeToJSON("src/main/resources/students_output.json")
 }

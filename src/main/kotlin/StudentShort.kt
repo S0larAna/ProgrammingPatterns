@@ -1,3 +1,6 @@
+import kotlinx.serialization.*
+
+@Serializable
 class Student_short(
     val id: Int,
     val nameWithInitials: String,

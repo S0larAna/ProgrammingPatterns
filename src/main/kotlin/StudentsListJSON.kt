@@ -1,34 +1,36 @@
-import kotlinx.serialization.json.*
 import java.io.File
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.*
 
 class StudentsListJSON(private val filePath: String) {
     private var students: MutableList<Student> = mutableListOf()
-    private val json = Json { ignoreUnknownKeys = true }
 
     init {
         readFromFile()
     }
 
-    private fun readFromFile() {
+    private fun readFromFile(){
         try {
+            students = mutableListOf()
             val jsonString = File(filePath).readText()
-            val jsonArray = json.parseToJsonElement(jsonString).jsonObject["students"]?.jsonArray
-            jsonArray?.forEach { jsonElement ->
-                val studentMap = parseJsonToMap(jsonElement)
-                val student = Student(studentMap)
-                students.add(student)
+            val jsonOb = Json.parseToJsonElement(jsonString).jsonObject["students"]?.jsonArray
+            if (jsonOb != null) {
+                jsonOb.forEach {
+                    var studentHash = HashMap<String, Any?>()
+                    it.jsonObject.entries.forEach {
+                        val (key, value) = it.toPair()
+                        studentHash[key] = value.toString().replace("\"", "")
+                        println(studentHash)
+                    }
+                    println(studentHash["phone"])
+                    students.add(Student(studentHash))
+                }
             }
-        } catch (e: Exception) {
-            println("Ошибка при чтении файла: ${e.message}")
-        }
-    }
+            println(students)
 
-    private fun parseJsonToMap(jsonElement: JsonElement): HashMap<String, Any?> {
-        val map = HashMap<String, Any?>()
-        jsonElement.jsonObject.forEach { (key, value) ->
-            map[key] = value.jsonPrimitive.content
+        } catch (e: Exception) {
+            println("Error reading file: ${e.message}")
         }
-        return map
     }
 
     fun getStudentById(id: Int): Student? {
@@ -62,5 +64,35 @@ class StudentsListJSON(private val filePath: String) {
 
     fun get_student_short_count(): Int {
         return students.size
+    }
+
+    fun writeToJSON(filePath: String){
+        try {
+            val json = Json {
+                prettyPrint = true
+            }
+            val file = File(filePath)
+            val jsonObject = buildJsonObject {
+                putJsonArray("students") {
+                    students.forEach { student ->
+                        addJsonObject {
+                            put("firstName", student.firstName)
+                            put("lastName", student.lastName)
+                            put("middleName", student.middleName)
+                            student.phone?.let { put("phone", it) }
+                            student.telegram?.let { put("telegram", it) }
+                            student.email?.let { put("email", it) }
+                            student.github?.let { put("github", it) }
+                            }
+                        }
+                    }
+                }
+            file.bufferedWriter().use { writer ->
+                writer.write(json.encodeToString(jsonObject))
+            }
+        }
+        catch (e: Exception){
+            println("Got error:" + e.message)
+        }
     }
 }

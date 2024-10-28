@@ -112,6 +112,24 @@ class Student(
         return this.id.compareTo(other.id)
     }
 
+    fun studentToJSON(): String{
+        var jsonObject = """
+            "lastName":"$lastName",
+            "firstName":"$firstName",
+            "middleName":"$middleName",
+        """.trimIndent()
+        if (!phone.isNullOrEmpty()) jsonObject+="""
+            "phone":"$phone",
+        """.trimIndent()
+        if (!telegram.isNullOrEmpty()) jsonObject+="""
+            "telegram":"$telegram",
+        """.trimIndent()
+        if (!github.isNullOrEmpty()) jsonObject+="""
+            "github":"$github",
+        """.trimIndent()
+        return jsonObject
+    }
+
     override fun toString(): String {
         return """
             Студент ID: $id

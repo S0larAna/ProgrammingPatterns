@@ -1,0 +1,2 @@
+lastName:Иванов, firstName:Иван,middleName:Иванович,phone:+79001234567,github:ivanov-github
+lastName:Петрова,firstName:Анна,middleName:Петровна,email:anna@example.com,telegram:@anna_petrova
