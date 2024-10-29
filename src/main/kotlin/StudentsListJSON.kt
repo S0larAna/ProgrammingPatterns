@@ -2,16 +2,11 @@ import java.io.File
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
-class StudentsListJSON(private val filePath: String) {
-    private var students: MutableList<Student> = mutableListOf()
+class StudentsListJSON(): StudentListStrategy {
 
-    init {
-        readFromFile()
-    }
-
-    private fun readFromFile(){
+    override fun readFromFile(filePath: String): MutableList<Student>{
+        var students = mutableListOf<Student>()
         try {
-            students = mutableListOf()
             val jsonString = File(filePath).readText()
             val jsonOb = Json.parseToJsonElement(jsonString).jsonObject["students"]?.jsonArray
             if (jsonOb != null) {
@@ -31,9 +26,10 @@ class StudentsListJSON(private val filePath: String) {
         } catch (e: Exception) {
             println("Error reading file: ${e.message}")
         }
+        return students
     }
 
-    fun writeToJSON(filePath: String){
+    override fun writeToFile(students: MutableList<Student>, filePath: String){
         try {
             val json = Json {
                 prettyPrint = true

@@ -1,22 +1,17 @@
 import java.io.File
 
-class Students_list_YAML(private val filePath: String) {
+class Students_list_YAML(): StudentListStrategy {
     private var students: MutableList<Student> = mutableListOf()
-    private var lastId: Int = 0
 
-    init {
-        readFromFile()
-    }
-
-    private fun readFromFile() {
+    override fun readFromFile(filePath: String): MutableList<Student> {
         try {
             val lines = File(filePath).readLines()
-            var currentStudent: MutableMap<String, String> = mutableMapOf()
+            var currentStudent = HashMap<String, Any?>()
 
             for (line in lines) {
                 if (line.trim().startsWith("-")) {
                     if (currentStudent.isNotEmpty()) {
-                        addStudentFromMap(currentStudent)
+                        students.add(Student(currentStudent))
                         currentStudent.clear()
                     }
                 } else {
@@ -26,33 +21,14 @@ class Students_list_YAML(private val filePath: String) {
                     }
                 }
             }
-
-            if (currentStudent.isNotEmpty()) {
-                addStudentFromMap(currentStudent)
-            }
+            return students
         } catch (e: Exception) {
             println("Ошибка при чтении файла: ${e.message}")
+            return students
         }
     }
 
-    private fun addStudentFromMap(map: Map<String, String>) {
-        val id = map["id"]?.toIntOrNull() ?: ++lastId
-        lastId = maxOf(lastId, id)
-        val student = Student(
-            id = id,
-            lastName = map["lastName"] ?: "",
-            firstName = map["firstName"] ?: "",
-            middleName = map["middleName"] ?: "",
-            phone = map["phone"],
-            telegram = map["telegram"],
-            email = map["email"],
-            github = map["github"]
-        )
-        students.add(student)
-    }
-
-    // b. Запись всех значений в файл
-    fun writeToFile() {
+    override fun writeToFile(students: MutableList<Student>, filePath: String) {
         try {
             File(filePath).printWriter().use { out ->
                 students.forEach { student ->
@@ -70,40 +46,5 @@ class Students_list_YAML(private val filePath: String) {
         } catch (e: Exception) {
             println("Ошибка при записи в файл: ${e.message}")
         }
-    }
-
-    fun getStudentById(id: Int): Student? {
-        return students.find { it.id == id }
-    }
-
-    fun get_k_n_student_short_list(k: Int, n: Int): List<Student_short> {
-        val startIndex = (k - 1) * n
-        val endIndex = minOf(startIndex + n, students.size)
-        return students.subList(startIndex, endIndex).map { Student_short(it) }
-    }
-
-    fun sortByName() {
-        students.sortBy { "${it.lastName}${it.firstName?.get(0)}${it.middleName?.get(0)}" }
-    }
-
-    fun addStudent(student: Student) {
-        val newId = lastId + 1
-        students.add(student)
-        lastId = newId
-    }
-
-    fun replaceStudent(id: Int, newStudent: Student) {
-        val index = students.indexOfFirst { it.id == id }
-        if (index != -1) {
-            students[index] = newStudent
-        }
-    }
-
-    fun removeStudent(id: Int) {
-        students.removeIf { it.id == id }
-    }
-
-    fun get_student_short_count(): Int {
-        return students.size
     }
 }

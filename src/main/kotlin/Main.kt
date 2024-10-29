@@ -37,6 +37,8 @@ fun main() {
     }
     val datatable = datalist.get_data()
     println(datatable)*/
-    val students = StudentsListJSON("src/main/resources/students.json")
-    students.writeToJSON("src/main/resources/students_output.json")
+    val jsonStrategy = StudentsListJSON()
+    val students = StudentList(jsonStrategy)
+    students.readFromFile("src/main/resources/students.json")
+    students.writeToFile("src/main/resources/students_output.json")
 }
