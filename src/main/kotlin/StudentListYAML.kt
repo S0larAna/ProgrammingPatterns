@@ -1,50 +1,43 @@
 import java.io.File
+import org.yaml.snakeyaml.Yaml
+import java.io.InputStream
 
-class Students_list_YAML(): StudentListStrategy {
+class StudentsListYAML(): StudentListStrategy {
     private var students: MutableList<Student> = mutableListOf()
 
     override fun readFromFile(filePath: String): MutableList<Student> {
+        val yaml = Yaml()
+        val students = mutableListOf<Student>()
         try {
-            val lines = File(filePath).readLines()
-            var currentStudent = HashMap<String, Any?>()
-
-            for (line in lines) {
-                if (line.trim().startsWith("-")) {
-                    if (currentStudent.isNotEmpty()) {
-                        students.add(Student(currentStudent))
-                        currentStudent.clear()
-                    }
-                } else {
-                    val parts = line.trim().split(":", limit = 2)
-                    if (parts.size == 2) {
-                        currentStudent[parts[0].trim()] = parts[1].trim()
-                    }
-                }
+            val inputStream = File(filePath).inputStream()
+            val yamlMap = yaml.load<Map<String, List<HashMap<String, Any?>>>>(inputStream)
+            yamlMap["students"]?.forEach{
+                println(it)
+                students.add(Student(it))
             }
-            return students
         } catch (e: Exception) {
-            println("Ошибка при чтении файла: ${e.message}")
-            return students
+            println("Error reading file: ${e.message}")
         }
+        return students
     }
 
     override fun writeToFile(students: MutableList<Student>, filePath: String) {
         try {
             File(filePath).printWriter().use { out ->
+                out.println("students:")
                 students.forEach { student ->
-                    out.println("- id: ${student.id}")
-                    out.println("  lastName: ${student.lastName}")
-                    out.println("  firstName: ${student.firstName}")
-                    out.println("  middleName: ${student.middleName}")
-                    student.phone?.let { out.println("  phone: $it") }
-                    student.telegram?.let { out.println("  telegram: $it") }
-                    student.email?.let { out.println("  email: $it") }
-                    student.github?.let { out.println("  github: $it") }
+                    out.println("  - lastName: \"${student.lastName}\"")
+                    out.println("  firstName: \"${student.firstName}\"")
+                    out.println("  middleName: \"${student.middleName}\"")
+                    student.phone?.let { out.println("  phone: \"$it\"") }
+                    student.telegram?.let { out.println("  telegram: \"$it\"") }
+                    student.email?.let { out.println("  email: \"$it\"") }
+                    student.github?.let { out.println("  github: \"$it\"") }
                     out.println()
                 }
             }
         } catch (e: Exception) {
-            println("Ошибка при записи в файл: ${e.message}")
+            println("Error reading file: ${e.message}")
         }
     }
 }

@@ -7,7 +7,9 @@ class StudentsListJSON(): StudentListStrategy {
     override fun readFromFile(filePath: String): MutableList<Student>{
         var students = mutableListOf<Student>()
         try {
-            val jsonString = File(filePath).readText()
+            val jsonString = File(filePath).bufferedReader(Charsets.UTF_8).use {
+                it.readText()
+            }
             val jsonOb = Json.parseToJsonElement(jsonString).jsonObject["students"]?.jsonArray
             if (jsonOb != null) {
                 jsonOb.forEach {
