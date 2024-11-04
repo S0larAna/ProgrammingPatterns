@@ -48,5 +48,10 @@ open class StudentBase {
             val regex = Regex("^[a-zA-Z0-9-]{1,39}\$")
             return regex.matches(github)
         }
+
+        fun isValidName(name: String): Boolean {
+            val regex = Regex("^[À-ß]{1}[à-ÿ]{1,39}\$")
+            return regex.matches(name)
+        }
     }
 }

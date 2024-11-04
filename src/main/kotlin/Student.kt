@@ -253,7 +253,7 @@ class Student(
             return students
         }
 
-        private fun isValidPhoneNumber(phone: String): Boolean {
+        /*private fun isValidPhoneNumber(phone: String): Boolean {
             val regex = Regex("^\\+?[0-9]{10,13}\$")
             return regex.matches(phone)
         }
@@ -276,6 +276,6 @@ class Student(
         private fun isValidName(name: String): Boolean {
             val regex = Regex("^[А-Я]{1}[а-я]{1,39}\$")
             return regex.matches(name)
-        }
+        }*/
     }
 }
