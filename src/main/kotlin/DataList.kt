@@ -1,23 +1,15 @@
-abstract class Data_list<T : Comparable<T>> {
-    protected var data: MutableList<T>
-    protected var selected: MutableSet<Int> = mutableSetOf()
+abstract class Data_list<T : Comparable<T>>(val data: List<T>) {
+
+    var selected: MutableSet<Int> = mutableSetOf()
 
     val size: Int
         get() = data.size
-
-    constructor(elements: List<T>) {
-        this.data = elements.sorted().toMutableList()
-    }
 
     operator fun get(index: Int): T {
         if (index < 0 || index >= size) {
             throw IndexOutOfBoundsException("Invalid index: $index")
         }
         return data[index]
-    }
-
-    fun getDataList(): MutableList<T> {
-        return this.data
     }
 
     fun indexOf(element: T): Int {
@@ -39,19 +31,19 @@ abstract class Data_list<T : Comparable<T>> {
         selected.add(number)
     }
 
-    fun get_selected(): List<T> {
+    fun getSelected(): List<T> {
         return selected.sorted().map { data[it] }
     }
 
-    abstract fun get_names(): Array<Array<String>>
+    abstract fun getNames(): Array<Any?>
 
-    fun clearSelection() {
-        selected.clear()
+    fun getData(): Data_table{
+        val dataArray:MutableList<Array<Any?>> = mutableListOf()
+        dataArray.add(getNames())
+        for (el in getRows()){
+            dataArray.add(el)
+        }
+        return Data_table(dataArray.toTypedArray<Array<Any?>>())
     }
-    fun get_data(): Data_table{
-        val names = get_names()
-        val rows = get_rows()
-        return Data_table(names + rows)
-    }
-    abstract protected fun get_rows(): Array<Array<String>>
+    abstract protected fun getRows(): Array<Array<Any?>>
 }

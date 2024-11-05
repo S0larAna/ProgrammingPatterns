@@ -25,10 +25,6 @@ class Student_short(
         return "${nameWithInitials} | ${github} | ${contact}"
     }
 
-    override fun toString(): String {
-        return getInfo()
-    }
-
     override fun compareTo(other: Student_short): Int {
         return this.nameWithInitials.compareTo(other.nameWithInitials)
     }
