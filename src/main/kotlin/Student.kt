@@ -112,24 +112,6 @@ class Student(
         return this.id.compareTo(other.id)
     }
 
-    fun studentToJSON(): String{
-        var jsonObject = """
-            "lastName":"$lastName",
-            "firstName":"$firstName",
-            "middleName":"$middleName",
-        """.trimIndent()
-        if (!phone.isNullOrEmpty()) jsonObject+="""
-            "phone":"$phone",
-        """.trimIndent()
-        if (!telegram.isNullOrEmpty()) jsonObject+="""
-            "telegram":"$telegram",
-        """.trimIndent()
-        if (!github.isNullOrEmpty()) jsonObject+="""
-            "github":"$github",
-        """.trimIndent()
-        return jsonObject
-    }
-
     override fun toString(): String {
         return """
             Студент ID: $id
@@ -191,91 +173,5 @@ class Student(
                 "telegram:${telegram ?: ""}," +
                 "email:${email ?: ""}," +
                 "github:${github ?: ""}"
-    }
-
-    companion object {
-        private var currentId = 0
-
-        private fun generateId(): Int {
-            return ++currentId
-        }
-
-        fun writeToTxt(directoryPath: String, fileName: String, students: List<Student>) {
-            val directory = File(directoryPath)
-            if (!directory.exists()) {
-                if (!directory.mkdirs()) {
-                    throw IOException("Failed to create directory: $directoryPath")
-                }
-            }
-
-            if (!directory.isDirectory) {
-                throw IllegalArgumentException("The provided path is not a directory: $directoryPath")
-            }
-
-            val file = File(directory, fileName)
-
-            try {
-                file.bufferedWriter().use { writer ->
-                    students.forEach { student ->
-                        val line = student.toFileString()
-                        writer.write(line)
-                        writer.newLine()
-                    }
-                }
-                println("Successfully wrote ${students.size} students to ${file.absolutePath}")
-            } catch (e: IOException) {
-                throw IOException("Error writing to file: ${file.absolutePath}", e)
-            }
-        }
-
-        fun readFromTxt(filePath: String): List<Student> {
-            val students = mutableListOf<Student>()
-            try {
-                val file = File(filePath)
-
-                file.useLines { lines ->
-                    for (line in lines) {
-                        try {
-                            val student = Student(line)
-                            students.add(student)
-                        } catch (e: IllegalArgumentException) {
-                            println("Error parsing line: $line")
-                            println("Error message: ${e.message}")
-                        }
-                    }
-                }
-
-            } catch (e: FileNotFoundException) {
-                println(e.message)
-            } catch (e: IllegalArgumentException) {
-                println(e.message)
-            }
-            return students
-        }
-
-        /*private fun isValidPhoneNumber(phone: String): Boolean {
-            val regex = Regex("^\\+?[0-9]{10,13}\$")
-            return regex.matches(phone)
-        }
-
-        private fun isValidTelegramHandle(telegram: String): Boolean {
-            val regex = Regex("^@[a-zA-Z0-9_]{5,32}\$")
-            return regex.matches(telegram)
-        }
-
-        private fun isValidEmail(email: String): Boolean {
-            val regex = Regex("^[\\w.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}\$")
-            return regex.matches(email)
-        }
-
-        private fun isValidGithubUsername(github: String): Boolean {
-            val regex = Regex("^https://github.com/[a-zA-Z0-9-]{1,39}\$")
-            return regex.matches(github)
-        }
-
-        private fun isValidName(name: String): Boolean {
-            val regex = Regex("^[А-Я]{1}[а-я]{1,39}\$")
-            return regex.matches(name)
-        }*/
     }
 }
