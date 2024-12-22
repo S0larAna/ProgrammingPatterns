@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 class DatabaseManager {
-    private var connection: Connection? = null
+    var connection: Connection? = null
 
     fun connect() {
         Class.forName("org.sqlite.JDBC")
