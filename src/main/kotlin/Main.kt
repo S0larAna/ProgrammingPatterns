@@ -1,9 +1,10 @@
+import App.MainApp
 import DBConnection.DatabaseManager
 import DBConnection.Students_list_DB
 
 fun main() {
-    /*val student1 = Student(1, "РРІР°РЅРѕРІ", "РРІР°РЅ", "РРІР°РЅРѕРІРёС‡", phone = "+79123456789", email = "ivan@example.com")
-    val student2 = Student(2, "РРІР°РЅРѕРІРІ", "РРІР°РЅ", "РРІР°РЅРѕРІРёС‡", phone = "+79123456789")
+    /*val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
+    val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
     val data: HashMap<String, Any?> = hashMapOf(
         "id" to 3,
         "lastName" to "Doe",
@@ -16,17 +17,17 @@ fun main() {
     )
     val student3 = Student(data)
 
-    println("РРЅС„РѕСЂРјР°С†РёСЏ Рѕ СЃС‚СѓРґРµРЅС‚Р°С…:")
+    println("Информация о студентах:")
     println(student1.toString())
     println(student2.toString())
     println(student3.toString())
 
-    val student4 = Student(lastName = "РРІР°РЅРѕРІ", firstName = "РРІР°РЅ", middleName = "РРІР°РЅРѕРІРёС‡")
+    val student4 = Student(lastName = "Иванов", firstName = "Иван", middleName = "Иванович")
 
-    val student5 = Student("lastName:РРІР°РЅРѕРІ,firstName:РРІР°РЅ,middleName:РРІР°РЅРѕРІРёС‡,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:https://github.com/johndoe")
+    val student5 = Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:https://github.com/johndoe")
     println(student5)
     val students = StudentsListTxt("src/main/resources/students.txt")
-    println("РџСЂРѕС‡РёС‚Р°РЅРѕ ${students.students.size} СЃС‚СѓРґРµРЅС‚РѕРІ:")
+    println("Прочитано ${students.students.size} студентов:")
     students.students.forEach { println(it) }
     Student.writeToTxt("src/main/resources", "students_output.txt", students.students)
     val students_test = Student.readFromTxt("src/main/resources/students_output.txt")
@@ -40,12 +41,13 @@ fun main() {
     }
     val datatable = datalist.get_data()
     println(datatable)*/
-    val jsonStrategy = StudentsListYAML()
-    val students = StudentList(jsonStrategy)
-    students.readFromFile("src/main/resources/students.yaml")
-    students.writeToFile("src/main/resources/students_output.yaml")
-    val dbConnection = DatabaseManager
-    dbConnection.connect()
-    val studentDb = Students_list_DB(dbConnection)
-    println(studentDb.getStudentById(1))
+//    val jsonStrategy = StudentsListYAML()
+//    val students = StudentList(jsonStrategy)
+//    students.readFromFile("src/main/resources/students.yaml")
+//    students.writeToFile("src/main/resources/students_output.yaml")
+//    val dbConnection = DatabaseManager
+//    dbConnection.connect()
+//    val studentDb = Students_list_DB(dbConnection)
+//    println(studentDb.getStudentById(1))
+    MainWindow.createAndShow()
 }

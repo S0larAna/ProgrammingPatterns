@@ -1,19 +1,19 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.20'
-    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version "1.9.20"
+    id("application")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
-    id("org.jetbrains.compose") version "1.5.11"
+    id("org.jetbrains.compose") version "1.5.10"
 }
 
 repositories {
     mavenCentral()
-    maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
+    maven{url "https://maven.pkg.jetbrains.space/public/p/compose/dev"}
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation 'org.yaml:snakeyaml:2.2'
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.yaml:snakeyaml:2.2")
     implementation("org.xerial:sqlite-jdbc:3.43.0.0")
     implementation(compose.desktop.currentOs)
     implementation(compose.material)
@@ -29,12 +29,4 @@ kotlin {
 
 application {
     mainClassName = 'MainKt'
-}
-
-tasks.withType(JavaExec) {
-    systemProperty 'file.encoding', 'UTF-8'
-}
-
-tasks.withType(Test) {
-    systemProperty 'file.encoding', 'UTF-8'
 }

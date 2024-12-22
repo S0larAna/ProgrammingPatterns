@@ -1,4 +1,4 @@
-class StudentList(var strategy: StudentListStrategy) {
+class StudentList(private var strategy: StudentListStrategy) {
     private var students: MutableList<Student> = mutableListOf()
 
     fun setStrategy(newStrategy: StudentListStrategy) {
