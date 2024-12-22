@@ -3,7 +3,7 @@ package DBConnection
 import java.sql.Connection
 import java.sql.DriverManager
 
-class DatabaseManager {
+object DatabaseManager {
     var connection: Connection? = null
 
     fun connect() {
