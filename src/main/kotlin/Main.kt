@@ -1,3 +1,5 @@
+import DBConnection.DatabaseManager
+
 fun main() {
     /*val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
     val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
@@ -41,4 +43,8 @@ fun main() {
     val students = StudentList(jsonStrategy)
     students.readFromFile("src/main/resources/students.yaml")
     students.writeToFile("src/main/resources/students_output.yaml")
+    val dbConnection = DatabaseManager()
+    dbConnection.connect()
+    val student = dbConnection.getStudents()
+    println(student.toString())
 }
