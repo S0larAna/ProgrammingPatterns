@@ -1,5 +1,9 @@
-class StudentList(var studentListStrategy: StudentListStrategy) {
+class StudentList(var strategy: StudentListStrategy) {
     private var students: MutableList<Student> = mutableListOf()
+
+    fun setStrategy(newStrategy: StudentListStrategy) {
+        strategy = newStrategy
+    }
 
     fun getStudentById(id: Int): Student? {
         return students.find { it.id == id }
@@ -35,10 +39,10 @@ class StudentList(var studentListStrategy: StudentListStrategy) {
     }
 
     fun readFromFile(filePath: String){
-        students = studentListStrategy.readFromFile(filePath)
+        students = strategy.readFromFile(filePath)
     }
 
     fun writeToFile(filePath: String){
-        studentListStrategy.writeToFile(students, filePath)
+        strategy.writeToFile(students, filePath)
     }
 }

@@ -44,7 +44,7 @@ fun main() {
     val students = StudentList(jsonStrategy)
     students.readFromFile("src/main/resources/students.yaml")
     students.writeToFile("src/main/resources/students_output.yaml")
-    val dbConnection = DatabaseManager()
+    val dbConnection = DatabaseManager
     dbConnection.connect()
     val studentDb = Students_list_DB(dbConnection)
     println(studentDb.getStudentById(1))

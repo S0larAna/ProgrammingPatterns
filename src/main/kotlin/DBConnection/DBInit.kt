@@ -19,22 +19,6 @@ object DatabaseManager {
         }
     }
 
-    fun getStudents(): List<Map<String, Any>> {
-        val users = mutableListOf<Map<String, Any>>()
-        val sql = "SELECT * FROM students"
-
-        connection?.createStatement()?.executeQuery(sql)?.use { rs ->
-            while (rs.next()) {
-                users.add(mapOf(
-                    "id" to rs.getInt("id"),
-                    "last_name" to rs.getString("last_name"),
-                    "email" to rs.getString("email")
-                ))
-            }
-        }
-        return users
-    }
-
     fun close() {
         connection?.close()
     }

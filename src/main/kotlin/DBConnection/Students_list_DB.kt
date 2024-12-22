@@ -2,11 +2,39 @@ package DBConnection
 import Data_list
 import Data_list_student_short
 import Student
+import StudentListStrategy
 import Student_short
 import java.sql.SQLException
 import java.sql.Statement
 
 class Students_list_DB(private val dbManager: DatabaseManager) {
+
+    fun readStudents():MutableList<Student>{
+        val sqlQuery = "SELECT * FROM students"
+        var studentList = mutableListOf<Student>()
+        dbManager.connection?.createStatement()?.executeQuery(sqlQuery)?.use { rs ->
+            while (rs.next()) {
+                studentList.add(Student(hashMapOf(
+                    "id" to rs.getInt("id"),
+                    "lastName" to rs.getString("last_name"),
+                    "firstName" to rs.getString("first_name"),
+                    "middleName" to rs.getString("middle_name"),
+                    "phone" to rs.getString("phone"),
+                    "telegram" to rs.getString("telegram"),
+                    "email" to rs.getString("email"),
+                    "github" to rs.getString("github")
+                )))
+            }
+        }
+        return studentList
+    }
+
+    fun writeStudents(students: List<Student>){
+        for (student in students){
+            addStudent(student)
+        }
+    }
+
     fun getStudentById(id: Int): Student?{
         val sqlQuery = "SELECT * FROM students where id=$id"
         dbManager.connection?.createStatement()?.executeQuery(sqlQuery)?.use { rs ->
