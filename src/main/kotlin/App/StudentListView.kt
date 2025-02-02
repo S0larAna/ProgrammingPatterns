@@ -1,323 +1,223 @@
 package App
 
 import Student
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.remember as remember1
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.collections.ListChangeListener
+import javafx.geometry.Insets
+import javafx.scene.control.*
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 
-class StudentListView {
+class StudentListView : BorderPane() {
+    private val itemsPerPage = 8
+    private var currentPage = 1
+    private var totalPages = 1
 
-    @Composable
-    fun studentListShow() {
-        val students = remember1 {
-            mutableStateListOf(
-                Student(lastName = "Ivanov", firstName = "Ivan", middleName = "Ivanovich"),
-                Student(lastName = "Ivanov", firstName = "Ivan", middleName = "Ivanovich")
-            )
-        }
-        var selectedRows by remember1 { mutableStateOf(setOf<Int>()) }
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            // ������� ����������
-            FilterSection()
+    init {
+        padding = Insets(10.0)
 
-            // ������� ���������
-            StudentTable(
-            )
+        // Область фильтрации (верхняя часть)
+        top = createFilterArea()
 
-        }
+        // Таблица студентов (центральная часть)
+        center = createTableArea()
     }
 
-    @Composable
-    fun CompactFilterOption(
-        title: String,
-        modifier: Modifier = Modifier
-    ) {
-        var selectedOption by remember1 { mutableStateOf("Not important") }
-        var searchText by remember1 { mutableStateOf("") }
+    private fun createTableArea(): VBox {
+        val tableArea = VBox(10.0)
 
-        Card(
-            modifier = modifier.fillMaxWidth(),
-            elevation = 1.dp
-        ) {
-            Column(
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.subtitle2,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
+        val table = createStudentTable()
+        val testData = listOf(
+            Student("lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:@ivanov,email:ivanov@example.com,github:johndoe"),
+            Student("lastName:Петров,firstName:Петр,middleName:Петрович,phone:+79007654321,telegram:@petrov,email:petrov@example.com,github:petrov"),
+            Student("lastName:Сидоров,firstName:Сидор,middleName:Сидорович,phone:+79001234568,telegram:@sidorov,email:sidorov@example.com,github:sidorov"),
+            Student("lastName:Кузнецов,firstName:Кузьма,middleName:Кузьмич,phone:+79001234569,telegram:@kuznetsov,email:kuznetsov@example.com,github:kuznetsov"),
+            Student("lastName:Смирнов,firstName:Смирн,middleName:Смирнович,phone:+79001234570,telegram:@smirnov,email:smirnov@example.com,github:smirnov"),
+            Student("lastName:Сидоров,firstName:Сидор,middleName:Сидорович,phone:+79001234568,telegram:@sidorov,email:sidorov@example.com,github:sidorov"),
+            Student("lastName:Кузнецов,firstName:Кузьма,middleName:Кузьмич,phone:+79001234569,telegram:@kuznetsov,email:kuznetsov@example.com,github:kuznetsov"),
+            Student("lastName:Смирнов,firstName:Смирн,middleName:Смирнович,phone:+79001234570,telegram:@smirnov,email:smir@example.com,github:smirnov"),
+            Student("lastName:Сидоров,firstName:Сидор,middleName:Сидорович,phone:+79001234568,telegram:@sidorov,email:sidorov@example.com,github:sidorov"),
+            Student("lastName:Кузнецов,firstName:Кузьма,middleName:Кузьмич,phone:+79001234569,telegram:@kuznetsov,email:kuznetsov@example.com,github:kuznetsov"),
+            Student("lastName:Смирнов,firstName:Смирн,middleName:Смирнович,phone:+79001234570,telegram:@smirnov,email:smirnov@example.com,github:smirnov")
+        )
+        totalPages = Math.ceil(testData.size / itemsPerPage.toDouble()).toInt()
+        updateTableData(table, testData)
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    CompactRadioButton("Yes", selectedOption) { selectedOption = it }
-                    CompactRadioButton("No", selectedOption) { selectedOption = it }
-                    CompactRadioButton("N/I", selectedOption) { selectedOption = it }
-                }
+        val paginationControls = createPaginationControls(table, testData)
+        val controlArea = createControlArea(table)
 
-                // Text field that's enabled only when "Yes" is selected
-                OutlinedTextField(
-                    value = searchText,
-                    onValueChange = { searchText = it },
-                    label = { Text("Search $title") },
-                    enabled = selectedOption == "Yes",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp),
-                    singleLine = true,
-                    textStyle = MaterialTheme.typography.caption
-                )
-            }
-        }
+        tableArea.children.addAll(table, paginationControls, controlArea)
+        return tableArea
     }
 
-    @Composable
-    fun FilterSection() {
-        var nameText by remember1 { mutableStateOf("") }
+    private fun createFilterArea(): VBox {
+        val filterArea = VBox(10.0)
+        filterArea.padding = Insets(0.0, 0.0, 10.0, 0.0)
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            OutlinedTextField(
-                value = nameText,
-                onValueChange = { nameText = it },
-                label = { Text("Last Name and Initials") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                singleLine = true
-            )
+        val nameFilter = createNameFilter()
+        val gitFilter = createContactFilter("Git")
+        val emailFilter = createContactFilter("Email")
+        val phoneFilter = createContactFilter("Телефон")
+        val telegramFilter = createContactFilter("Telegram")
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    CompactFilterOption("Git")
-                    CompactFilterOption("Email")
-                }
+        filterArea.children.addAll(
+            nameFilter,
+            gitFilter,
+            emailFilter,
+            phoneFilter,
+            telegramFilter
+        )
 
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    CompactFilterOption("Phone")
-                    CompactFilterOption("Telegram")
-                }
-            }
-        }
+        return filterArea
     }
 
-    @Composable
-    fun CompactRadioButton(
-        text: String,
-        selectedOption: String,
-        onSelect: (String) -> Unit
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(2.dp)  // Minimal padding
-        ) {
-            RadioButton(
-                selected = selectedOption == text,
-                onClick = { onSelect(text) },
-                modifier = Modifier.size(32.dp)  // Smaller radio buttons
-            )
-            Text(
-                text,
-                style = MaterialTheme.typography.caption,  // Smaller text
-                modifier = Modifier.padding(start = 2.dp)
-            )
-        }
+    private fun createNameFilter(): HBox {
+        val nameBox = HBox(10.0)
+        val nameLabel = Label("Фамилия и инициалы:")
+        val nameField = TextField()
+        nameBox.children.addAll(nameLabel, nameField)
+        return nameBox
     }
 
-    @Composable
-    fun StudentTable() {
-        var selectedRows by remember1 { mutableStateOf(setOf<Int>()) }
-        var currentPage by remember1 { mutableStateOf(0) }
-        var sortedBy by remember1 { mutableStateOf("id") }
-        var isAscending by remember1 { mutableStateOf(true) }
+    private fun createContactFilter(contactType: String): VBox {
+        val contactBox = VBox(5.0)
 
-        val students = remember1 {
-            mutableStateListOf(
-                Student(1, "Ivanov", "Ivan", "Ivanovich", "+79123456789", "@johndoe", "ivan@example.com", "johndoe"),
-                Student(2, "Petrov", "Petr", "Petrovich", "+79234567890", "@johndoe", "ivan@example.com", "johndoe"),
-                Student(3, "Sidorov", "Sidor", "Sidorovich", "+79345678901", "@johndoe", "ivan@example.com", "johndoe"),
-                Student(4, "Andreev", "Andrey", "Andreevich", "+79456789012", "@johndoe", "ivan@example.com", "johndoe")
-            )
+        val label = Label(contactType)
+        label.style = "-fx-font-weight: bold;"
+
+        val optionsAndSearchBox = HBox(10.0)
+
+        val options = FXCollections.observableArrayList("Да", "Нет", "Не важно")
+        val comboBox = ComboBox(options)
+        comboBox.selectionModel.select("Не важно")
+        comboBox.prefWidth = 150.0
+
+        val searchField = TextField()
+        searchField.isDisable = true
+        searchField.prefWidth = 200.0
+
+        comboBox.setOnAction {
+            searchField.isDisable = comboBox.value != "Да"
         }
 
-        val itemsPerPage = 2
-        val totalPages = (students.size + itemsPerPage - 1) / itemsPerPage
+        optionsAndSearchBox.children.addAll(comboBox, searchField)
 
-        Column {
-            // Table Header
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFF7B1FA2))
-                    .padding(16.dp)
-            ) {
-                listOf("ID", "Last Name", "First Name", "Middle Name", "Phone", "Email", "Git").forEach { header ->
-                    Text(
-                        text = header,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                if (sortedBy == header.lowercase()) {
-                                    isAscending = !isAscending
-                                } else {
-                                    sortedBy = header.lowercase()
-                                    isAscending = true
-                                }
-                            }
-                    )
-                }
-            }
+        contactBox.children.addAll(label, optionsAndSearchBox)
 
-            // Table Content
-            LazyColumn {
-                val sortedStudents = when (sortedBy) {
-                    "id" -> if (isAscending) students.sortedBy { it.id } else students.sortedByDescending { it.id }
-                    "last name" -> if (isAscending) students.sortedBy { it.lastName } else students.sortedByDescending { it.lastName }
-                    "first name" -> if (isAscending) students.sortedBy { it.firstName } else students.sortedByDescending { it.firstName }
-                    "middle name" -> if (isAscending) students.sortedBy { it.middleName } else students.sortedByDescending { it.middleName }
-                    "phone" -> if (isAscending) students.sortedBy { it.phone } else students.sortedByDescending { it.phone }
-                    "email" -> if (isAscending) students.sortedBy { it.email } else students.sortedByDescending { it.email }
-                    "git" -> if (isAscending) students.sortedBy { it.github } else students.sortedByDescending { it.github }
-                    else -> students
-                }
-
-                val pageStudents = sortedStudents
-                    .drop(currentPage * itemsPerPage)
-                    .take(itemsPerPage)
-
-                items(pageStudents.size) { index ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { selectedRows = if (selectedRows.contains(pageStudents[index].id)) {
-                        selectedRows - pageStudents[index].id
-                    } else {
-                        selectedRows + pageStudents[index].id
-                    } }
-                            .background(if (selectedRows.contains(pageStudents[index].id))
-                                Color.LightGray else Color.Transparent)
-                            .padding(16.dp)
-                    ){
-                        Text(pageStudents[index].id.toString(), modifier = Modifier.weight(1f))
-                        pageStudents[index].lastName?.let { it1 -> Text(it1, modifier = Modifier.weight(1f)) }
-                        pageStudents[index].firstName?.let { it1 -> Text(it1, modifier = Modifier.weight(1f)) }
-                        pageStudents[index].middleName?.let { it1 -> Text(it1, modifier = Modifier.weight(1f)) }
-                        pageStudents[index].phone?.let { it1 -> Text(it1, modifier = Modifier.weight(1f)) }
-                        pageStudents[index].email?.let { it1 -> Text(it1, modifier = Modifier.weight(1f)) }
-                        pageStudents[index].github?.let { it1 -> Text(it1, modifier = Modifier.weight(1f)) }
-                    }
-                }
-            }
-
-            // Pagination
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(
-                    onClick = { currentPage = (currentPage - 1).coerceAtLeast(0) },
-                    enabled = currentPage > 0,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF7B1FA2))
-                ) {
-                    Text("Previous", color = Color.White)
-                }
-
-                Text(
-                    "Page ${currentPage + 1} of $totalPages",
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    style = MaterialTheme.typography.body1
-                )
-
-                Button(
-                    onClick = { currentPage = (currentPage + 1).coerceAtMost(totalPages - 1) },
-                    enabled = currentPage < totalPages - 1,
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF7B1FA2))
-                ) {
-                    Text("Next", color = Color.White)
-                }
-            }
-
-            ControlSection(
-                selectedCount = selectedRows.size,
-                onAdd = { /* Add logic */ },
-                onEdit = { /* Edit logic */ },
-                onDelete = { /* Delete logic */ },
-                onRefresh = { /* Refresh logic */ }
-            )
-        }
+        return contactBox
     }
 
-    @Composable
-    fun ControlSection(
-        selectedCount: Int,
-        onAdd: () -> Unit,
-        onEdit: () -> Unit,
-        onDelete: () -> Unit,
-        onRefresh: () -> Unit
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Button(
-                onClick = onAdd,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF7B1FA2))
-            ) {
-                Text("Add", color = Color.White)
-            }
+    private fun createStudentTable(): TableView<Student> {
+        val table = TableView<Student>()
 
-            Button(
-                onClick = onEdit,
-                enabled = selectedCount == 1,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF7B1FA2))
-            ) {
-                Text("Edit", color = Color.White)
-            }
+        val idColumn = TableColumn<Student, Int>("ID")
+        idColumn.setCellValueFactory { cellData -> SimpleObjectProperty(cellData.value.id) }
 
-            Button(
-                onClick = onDelete,
-                enabled = selectedCount > 0,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF7B1FA2))
-            ) {
-                Text("Delete", color = Color.White)
-            }
+        val lastNameColumn = TableColumn<Student, String>("Фамилия")
+        lastNameColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.lastName) }
 
-            Button(
-                onClick = onRefresh,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF7B1FA2))
-            ) {
-                Text("Refresh", color = Color.White)
+        val nameColumn = TableColumn<Student, String>("Имя")
+        nameColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.firstName) }
+
+        val middleNameColumn = TableColumn<Student, String>("Отчество")
+        middleNameColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.middleName) }
+
+        val gitColumn = TableColumn<Student, String>("Git")
+        gitColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.github) }
+
+        val emailColumn = TableColumn<Student, String>("Email")
+        emailColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.email) }
+
+        val phoneColumn = TableColumn<Student, String>("Телефон")
+        phoneColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.phone) }
+
+        val telegramColumn = TableColumn<Student, String>("Telegram")
+        telegramColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.telegram) }
+
+        table.columns.addAll(idColumn, lastNameColumn, nameColumn, middleNameColumn, gitColumn, emailColumn, phoneColumn, telegramColumn)
+        table.isEditable = false
+        table.selectionModel.selectionMode = SelectionMode.MULTIPLE
+
+        return table
+    }
+
+    private fun updateTableData(table: TableView<Student>, data: List<Student>) {
+        val fromIndex = (currentPage - 1) * itemsPerPage
+        val toIndex = Math.min(fromIndex + itemsPerPage, data.size)
+        table.items.setAll(data.subList(fromIndex, toIndex))
+    }
+
+    private fun createControlArea(table: TableView<Student>): HBox {
+        val controlArea = HBox(10.0)
+        controlArea.padding = Insets(10.0, 0.0, 0.0, 0.0)
+
+        val addButton = Button("Добавить")
+        val editButton = Button("Изменить")
+        val deleteButton = Button("Удалить")
+        val updateButton = Button("Обновить")
+
+        addButton.styleClass.add("action-button")
+        editButton.styleClass.add("action-button")
+        deleteButton.styleClass.add("action-button")
+        updateButton.styleClass.add("action-button")
+
+        editButton.isDisable = true
+        deleteButton.isDisable = true
+
+        controlArea.children.addAll(addButton, editButton, deleteButton, updateButton)
+
+        table.selectionModel.selectedItems.addListener(ListChangeListener { change ->
+            val selectedItems = table.selectionModel.selectedItems
+            when {
+                selectedItems.size == 1 -> {
+                    editButton.isDisable = false
+                    deleteButton.isDisable = false
+                }
+                selectedItems.size > 1 -> {
+                    editButton.isDisable = true
+                    deleteButton.isDisable = false
+                }
+                else -> {
+                    editButton.isDisable = true
+                    deleteButton.isDisable = true
+                }
+            }
+        })
+
+        return controlArea
+    }
+
+    private fun createPaginationControls(table: TableView<Student>, data: List<Student>): HBox {
+        val controls = HBox(10.0)
+
+        val prevButton = Button("Предыдущая")
+        val nextButton = Button("Следующая")
+        val pageInfo = Label()
+
+        prevButton.setOnAction {
+            if (currentPage > 1) {
+                currentPage--
+                updateTableData(table, data)
+                updatePageInfo(pageInfo)
             }
         }
+
+        nextButton.setOnAction {
+            if (currentPage < totalPages) {
+                currentPage++
+                updateTableData(table, data)
+                updatePageInfo(pageInfo)
+            }
+        }
+
+        controls.children.addAll(prevButton, pageInfo, nextButton)
+        return controls
+    }
+
+    private fun updatePageInfo(label: Label) {
+        label.text = "Страница $currentPage из $totalPages"
     }
 }

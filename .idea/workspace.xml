@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23ecb040-6d39-4afc-9006-0316f1d792a8" name="Changes" comment="feat[lab 6.1]: add dependencies for ui">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="23ecb040-6d39-4afc-9006-0316f1d792a8" name="Changes" comment="feat[lab 6.2]: fix db init">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/App/MainApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/App/MainWindow.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/App/StudentListView.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/StudentList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/StudentList.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/students.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/students.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/students.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/students.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,33 +80,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;lab6&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bodya/IdeaProjects/ProgrammingPatterns&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ToolWindowGitHub Copilot Chat.ShowToolbar": "false",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "lab6",
+    "jdk.selected.JAVA_MODULE": "19",
+    "last_opened_file_path": "C:/Users/bodya/IdeaProjects/ProgrammingPatterns",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "File.Encoding",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;,
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "sqlite"
     ]
   }
-}</component>
-  <component name="RunManager" selected="Kotlin.MainKt">
+}]]></component>
+  <component name="RunManager">
     <configuration name="ProgrammingPaterns [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -176,8 +176,8 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <configuration name="StudentView" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="StudentView" />
       <module name="ProgrammingPaterns.main" />
       <shortenClasspath name="NONE" />
       <option name="VM_PARAMETERS" value="-Dfile.encoding=windows-1251 -Dconsole.encoding=windows-1251" />
@@ -189,15 +189,15 @@
       <item itemvalue="Gradle.ProgrammingPaterns [dependencies]" />
       <item itemvalue="Gradle.ProgrammingPaterns [test]" />
       <item itemvalue="Gradle.StudentTest.modify phone number to valid one" />
-      <item itemvalue="Kotlin.MainKt" />
+      <item itemvalue="Kotlin.StudentView" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.StudentView" />
         <item itemvalue="Gradle.ProgrammingPaterns [dependencies]" />
         <item itemvalue="Gradle.StudentTest.modify phone number to valid one" />
         <item itemvalue="Gradle.ProgrammingPaterns [test]" />
-        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.StudentView" />
       </list>
     </recent_temporary>
   </component>
@@ -235,7 +235,13 @@
       <workItem from="1733247553835" duration="1154000" />
       <workItem from="1734872283338" duration="12699000" />
       <workItem from="1734890644366" duration="112000" />
-      <workItem from="1734890815626" duration="6297000" />
+      <workItem from="1734890815626" duration="8799000" />
+      <workItem from="1736365224015" duration="599000" />
+      <workItem from="1736442956661" duration="10000" />
+      <workItem from="1737053431356" duration="1161000" />
+      <workItem from="1737463104387" duration="961000" />
+      <workItem from="1738521642018" duration="2359000" />
+      <workItem from="1738524945457" duration="7613000" />
     </task>
     <task id="LOCAL-00001" summary="feat[lab 1]: add Student class&#10;add getters &amp; setters &#10;add Main">
       <option name="closed" value="true" />
@@ -485,7 +491,31 @@
       <option name="project" value="LOCAL" />
       <updated>1734888064961</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="feat[lab 6.2]: add main window">
+      <option name="closed" value="true" />
+      <created>1734904378326</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1734904378326</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat[lab 6.2]: update dependencies and make adjustments to Main class">
+      <option name="closed" value="true" />
+      <created>1734904422232</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1734904422232</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat[lab 6.2]: fix db init">
+      <option name="closed" value="true" />
+      <created>1734904502632</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1734904502632</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -503,9 +533,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat[lab 1]: add validation function that checks if a student has github or any other contact information" />
-    <MESSAGE value="chore[lab 1]: refactor Student class&#10;remove all unnecessary constructors and field initializations" />
-    <MESSAGE value="feat[lab 2]: add object parsing from string" />
     <MESSAGE value="feat[lab 2]: add getInfo function that shows a short form of student info" />
     <MESSAGE value="chore[lab 2]: refactor Student class: add superclass StudentBase and Student_short" />
     <MESSAGE value="feat[lab 2]: add methods for reading students from a file and writing information to txt" />
@@ -528,6 +555,9 @@
     <MESSAGE value="feat[lab 4.3]: make DB connection class a singleton" />
     <MESSAGE value="feat[lab 5.1]: add StudentDB adapter" />
     <MESSAGE value="feat[lab 6.1]: add dependencies for ui" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat[lab 6.1]: add dependencies for ui" />
+    <MESSAGE value="feat[lab 6.2]: add main window" />
+    <MESSAGE value="feat[lab 6.2]: update dependencies and make adjustments to Main class" />
+    <MESSAGE value="feat[lab 6.2]: fix db init" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat[lab 6.2]: fix db init" />
   </component>
 </project>
