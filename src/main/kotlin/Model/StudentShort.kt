@@ -13,7 +13,7 @@ class Student_short(
         id = student.id,
         nameWithInitials = student.getNameInfo(),
         github = student.getGithubInfo(),
-        contact = student.getContactInfo().split(": ")[1]
+        contact = student.getContactInfo()
     )
 
     constructor(id: Int, infoString: String) : this(
