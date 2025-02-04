@@ -1,21 +1,27 @@
+import Controller.StudentAppController
 import View.StudentListView
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.stage.Stage
 
-class StudentView : Application() {
+class StudentView() : Application() {
+    private val studentAppController = StudentAppController(this)
+    val studentListTab = Tab("Список студентов")
+    val secondTab = Tab("Второй раздел")
+    val thirdTab = Tab("Третий раздел")
     override fun start(primaryStage: Stage) {
-        primaryStage.title = "Student data manager"
-
+        primaryStage.title = "Студенты"
         val tabPane = TabPane()
         tabPane.tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
-
-        val studentListTab = Tab("Список студентов")
-        val secondTab = Tab("Второй раздел")
-        val thirdTab = Tab("Третий раздел")
+        System.out.println("привет мир")
 
         tabPane.tabs.addAll(studentListTab, secondTab, thirdTab)
+        studentListTab.content = StudentListView()
+
+        studentListTab.setOnSelectionChanged {
+            studentAppController.updateTabContent()
+        }
 
         val scene = Scene(tabPane, 800.0, 600.0)
         scene.stylesheets.add("styles.css")
