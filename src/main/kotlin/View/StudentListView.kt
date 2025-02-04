@@ -1,6 +1,7 @@
 package View
 
 import Controller.StudentListController
+import Model.Observer
 import Model.Student_short
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
@@ -10,12 +11,12 @@ import javafx.scene.control.*
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
-class StudentListView: VBox() {
-    val controller: StudentListController = StudentListController(this)
+class StudentListView: VBox(), Observer {
     val table: TableView<Student_short> = createStudentTable()
     val filterArea: VBox = createFilterArea()
     val controlArea: HBox = createControlArea()
     val paginationControls: HBox = createPaginationControls()
+    val controller: StudentListController = StudentListController(this)
     init {
         controller.updateTableData()
         padding = Insets(10.0)
@@ -133,5 +134,14 @@ class StudentListView: VBox() {
 
         controls.children.addAll(prevButton, pageInfo, nextButton)
         return controls
+    }
+
+    override fun wholeEntitiesCount() {
+        controller.updatePageInfo(paginationControls.children[1] as Label)
+    }
+
+    override fun setTableData(dataTable: List<Student_short>) {
+        val studentObservableList = FXCollections.observableArrayList(dataTable)
+        table.items.addAll(studentObservableList)
     }
 }
