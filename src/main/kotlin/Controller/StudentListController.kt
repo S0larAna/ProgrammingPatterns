@@ -36,6 +36,7 @@ class StudentListController(private val studentListView: StudentListView) {
         val studentDb = Students_list_DB(dbConnection)
         System.out.println(studentDb.getStudentById(1))
         students = StudentList(StudentListDBAdapter(Students_list_DB(dbConnection)))
+        students.readFromFile("students")
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage))
         //TODO: избавиться от костыля с пробросом пути к файлу
