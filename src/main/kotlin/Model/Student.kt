@@ -1,9 +1,7 @@
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
+package Model
 
 class Student(
-    val id: Int = generateId(),
+    val id: Int,
     lastName: String,
     firstName: String,
     middleName: String,
@@ -96,7 +94,7 @@ class Student(
         }
 
     constructor(data: HashMap<String, Any?>) : this(
-        id = generateId(),
+        id = data["id"] as Int,
         lastName = data["lastName"] as? String?: throw IllegalArgumentException("Invalid lastName format"),
         firstName = data["firstName"] as? String?: throw IllegalArgumentException("Invalid firstName format"),
         middleName = data["middleName"] as? String?: throw IllegalArgumentException("Illegal middleName"),
@@ -153,7 +151,7 @@ class Student(
     }
 
     fun getGithubInfo(): String {
-        return github?.let { "GitHub: $it" } ?: "GitHub: не указан"
+        return github?.let { it } ?: "не указан"
     }
 
     fun getContactInfo(): String {

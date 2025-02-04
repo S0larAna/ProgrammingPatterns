@@ -1,3 +1,5 @@
+package Model
+
 class StudentList(private var strategy: StudentListStrategy) {
     private var students: MutableList<Student> = mutableListOf()
 

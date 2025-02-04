@@ -1,15 +1,16 @@
-import App.StudentListView
-import javafx.application.Application
-import javafx.geometry.Insets
-import javafx.scene.Scene
-import javafx.scene.control.*
-import javafx.scene.layout.VBox
-import javafx.stage.Stage
-import javafx.scene.layout.Priority
+package Model// src/main/kotlin/MainApp.kt
 
-class StudentView : Application() {
+import Controller.StudentListController
+import View.StudentListView
+import javafx.application.Application
+import javafx.scene.Scene
+import javafx.scene.control.Tab
+import javafx.scene.control.TabPane
+import javafx.stage.Stage
+
+class MainApp : Application() {
     override fun start(primaryStage: Stage) {
-        primaryStage.title = "Управление студентами"
+        primaryStage.title = "Студенты"
 
         val tabPane = TabPane()
         tabPane.tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
@@ -17,10 +18,17 @@ class StudentView : Application() {
         val studentListTab = Tab("Список студентов")
         val secondTab = Tab("Второй раздел")
         val thirdTab = Tab("Третий раздел")
-        System.out.println("Привет мир!")
+        System.out.println("привет мир")
 
         tabPane.tabs.addAll(studentListTab, secondTab, thirdTab)
         studentListTab.content = StudentListView()
+        studentListTab.setOnSelectionChanged {
+            if (studentListTab.isSelected) {
+                val studentListView = StudentListView()
+                StudentListController(studentListView)
+                studentListTab.content = studentListView
+            }
+        }
 
         val scene = Scene(tabPane, 800.0, 600.0)
         scene.stylesheets.add("styles.css")
@@ -30,5 +38,5 @@ class StudentView : Application() {
 }
 
 fun main() {
-    Application.launch(StudentView::class.java)
+    Application.launch(MainApp::class.java)
 }

@@ -1,3 +1,8 @@
+package Model
+
+import DBConnection.DatabaseManager
+import DBConnection.Students_list_DB
+
 fun main() {
     /*val student1 = Student(1, "Иванов", "Иван", "Иванович", phone = "+79123456789", email = "ivan@example.com")
     val student2 = Student(2, "Ивановв", "Иван", "Иванович", phone = "+79123456789")
@@ -41,9 +46,9 @@ fun main() {
 //    val students = StudentList(jsonStrategy)
 //    students.readFromFile("src/main/resources/students.yaml")
 //    students.writeToFile("src/main/resources/students_output.yaml")
-//    val dbConnection = DatabaseManager
-//    dbConnection.connect()
-//    val studentDb = Students_list_DB(dbConnection)
-//    println(studentDb.getStudentById(1))
+   val dbConnection = DatabaseManager
+   dbConnection.connect()
+    val studentDb = Students_list_DB(dbConnection)
+    println(studentDb.getStudentById(1))
     //MainWindow.createAndShow()
 }

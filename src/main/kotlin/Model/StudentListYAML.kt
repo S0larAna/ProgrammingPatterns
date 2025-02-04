@@ -1,6 +1,7 @@
+package Model
+
 import java.io.File
 import org.yaml.snakeyaml.Yaml
-import java.io.InputStream
 
 class StudentsListYAML(): StudentListStrategy {
     private var students: MutableList<Student> = mutableListOf()

@@ -1,9 +1,8 @@
 package DBConnection
-import Data_list
-import Data_list_student_short
-import Student
-import StudentListStrategy
-import Student_short
+import Model.Data_list
+import Model.Data_list_student_short
+import Model.Student
+import Model.Student_short
 import java.sql.SQLException
 import java.sql.Statement
 
@@ -14,7 +13,8 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
         var studentList = mutableListOf<Student>()
         dbManager.connection?.createStatement()?.executeQuery(sqlQuery)?.use { rs ->
             while (rs.next()) {
-                studentList.add(Student(hashMapOf(
+                studentList.add(
+                    Student(hashMapOf(
                     "id" to rs.getInt("id"),
                     "lastName" to rs.getString("last_name"),
                     "firstName" to rs.getString("first_name"),
@@ -23,7 +23,8 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
                     "telegram" to rs.getString("telegram"),
                     "email" to rs.getString("email"),
                     "github" to rs.getString("github")
-                )))
+                ))
+                )
             }
         }
         return studentList
@@ -54,12 +55,13 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
         return null
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int): Data_list<Student_short>{
+    fun get_k_n_student_short_list(k: Int, n: Int): Data_list<Student_short> {
         val sqlQuery = "SELECT * FROM students"
         var studentList = mutableListOf<Student>()
         dbManager.connection?.createStatement()?.executeQuery(sqlQuery)?.use { rs ->
             while (rs.next()) {
-                studentList.add(Student(hashMapOf(
+                studentList.add(
+                    Student(hashMapOf(
                     "id" to rs.getInt("id"),
                     "lastName" to rs.getString("last_name"),
                     "firstName" to rs.getString("first_name"),
@@ -68,7 +70,8 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
                     "telegram" to rs.getString("telegram"),
                     "email" to rs.getString("email"),
                     "github" to rs.getString("github")
-                )))
+                ))
+                )
             }
         }
         val startIndex = (k - 1) * n
@@ -103,11 +106,11 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
                 }
             }
         }
-        throw SQLException("Íå óäàëîñü ïîëó÷èòü ñãåíåðèðîâàííûé ID")
+        throw SQLException("ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ ID")
     }
 
     fun updateStudent(id: Int, student: Student) {
-        require(id > 0) { "ID ñòóäåíòà äîëæåí áûòü ïîëîæèòåëüíûì ÷èñëîì" }
+        require(id > 0) { "ID ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð° Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼ Ñ‡Ð¸ÑÐ»Ð¾Ð¼" }
 
         dbManager.connection?.use { connection ->
             val query = """
@@ -138,7 +141,7 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
     }
 
     fun deleteStudent(id: Int) {
-        require(id > 0) { "ID ñòóäåíòà äîëæåí áûòü ïîëîæèòåëüíûì ÷èñëîì" }
+        require(id > 0) { "ID ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð° Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð¿Ð¾Ð»Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼ Ñ‡Ð¸ÑÐ»Ð¾Ð¼" }
 
         dbManager.connection?.use { connection ->
             val query = "DELETE FROM students WHERE id = ?"

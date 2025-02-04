@@ -1,3 +1,5 @@
+package Model
+
 open class StudentBase {
 
     companion object {
@@ -71,7 +73,7 @@ open class StudentBase {
         }
 
         fun isValidName(name: String): Boolean {
-            val regex = Regex("^[¿-ﬂ]{1}[‡-ˇ]{1,39}\$")
+            val regex = Regex("^[–ê-–Ø]{1}[–∞-—è]{1,39}\$")
             return regex.matches(name)
         }
     }

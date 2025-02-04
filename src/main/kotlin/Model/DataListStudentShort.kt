@@ -1,3 +1,8 @@
+package Model
+
+import javafx.collections.ObservableList
+import javafx.scene.control.TableView
+
 class Data_list_student_short(students: List<Student_short>) : Data_list<Student_short>(students) {
 
     override fun getNames(): Array<Any?> {
@@ -15,5 +20,10 @@ class Data_list_student_short(students: List<Student_short>) : Data_list<Student
             )
         }
         return rows
+    }
+
+    fun notify(observableList: ObservableList<Student_short>, table: TableView<Student_short>) {
+        observableList.setAll(data)
+        table.items.setAll(observableList)
     }
 }
