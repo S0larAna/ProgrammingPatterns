@@ -44,7 +44,12 @@ class StudentListController(private val studentListView: StudentListView) {
     }
 
     fun updateTableData() {
-        students.readFromFile("students")
+        try {
+            students.readFromFile("students")
+        }
+        catch (e: Exception) {
+            showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
+        }
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         val studentList = students.get_k_n_student_short_list(currentPage, itemsPerPage)
         dataListStudentShort = Data_list_student_short(studentList)
