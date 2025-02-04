@@ -11,13 +11,12 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
 class StudentListView: VBox() {
-    val controller: StudentListController
+    val controller: StudentListController = StudentListController(this)
     val table: TableView<Student_short> = createStudentTable()
     val filterArea: VBox = createFilterArea()
     val controlArea: HBox = createControlArea()
     val paginationControls: HBox = createPaginationControls()
     init {
-        controller = StudentListController(this)
         controller.updateTableData()
         padding = Insets(10.0)
         spacing = 10.0
