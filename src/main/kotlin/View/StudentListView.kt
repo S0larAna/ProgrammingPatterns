@@ -9,6 +9,7 @@ import javafx.collections.FXCollections
 import javafx.geometry.Insets
 import javafx.scene.control.*
 import javafx.scene.layout.HBox
+import javafx.scene.layout.Region
 import javafx.scene.layout.VBox
 
 class StudentListView: VBox(), Observer {

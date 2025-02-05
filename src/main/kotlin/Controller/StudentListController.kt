@@ -11,7 +11,11 @@ import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
+import javafx.scene.control.TextField
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 import javafx.stage.Stage
 
 class StudentListController(private val studentListView: StudentListView) {
@@ -134,7 +138,11 @@ class StudentListController(private val studentListView: StudentListView) {
             }
         }
         updateButton.setOnAction {
-            //TODO: реализовать обновление таблицы
+            //TODO пофиксить проперти фильтрации
+            val selectedValue = ((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<Any>
+            hasGit = selectedValue.value == "Да"
+            gitSubstring = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[1] as TextField).text
+            updateTableData()
         }
     }
 

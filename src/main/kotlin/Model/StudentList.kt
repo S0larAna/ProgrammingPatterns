@@ -13,11 +13,11 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
     }
 
     fun get_k_n_student_short_list(k: Int, n: Int, hasGit: Boolean?, gitSubstring: String?): List<Student_short> {
-        val filteredList = students
+        var filteredList = students
         if (hasGit==true) {
-            filteredList.filter { it.github != null }.map { Student_short(it) }
+            filteredList = students.filter { it.github != null }.toMutableList()
             if (gitSubstring != null) {
-                filteredList.filter { it.github != null && it.github!!.contains(gitSubstring) }.map { Student_short(it) }
+                filteredList = filteredList.filter { it.github != null && it.github!!.contains(gitSubstring) }.toMutableList()
             }
         }
         val startIndex = (k - 1) * n
