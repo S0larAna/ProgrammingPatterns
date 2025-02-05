@@ -12,10 +12,17 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.find { it.id == id }
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int): List<Student_short> {
+    fun get_k_n_student_short_list(k: Int, n: Int, hasGit: Boolean?, gitSubstring: String?): List<Student_short> {
+        val filteredList = students
+        if (hasGit==true) {
+            filteredList.filter { it.github != null }.map { Student_short(it) }
+            if (gitSubstring != null) {
+                filteredList.filter { it.github != null && it.github!!.contains(gitSubstring) }.map { Student_short(it) }
+            }
+        }
         val startIndex = (k - 1) * n
-        val endIndex = minOf(startIndex + n, students.size)
-        return students.subList(startIndex, endIndex).map { Student_short(it) }
+        val endIndex = minOf(startIndex + n, filteredList.size)
+        return filteredList.subList(startIndex, endIndex).map { Student_short(it) }
     }
 
     fun sortByName() {

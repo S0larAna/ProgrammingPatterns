@@ -19,6 +19,8 @@ class StudentListController(private val studentListView: StudentListView) {
     private var dataListStudentShort: Data_list_student_short
     val dbConnection = DatabaseManager
     val studentDb = Students_list_DB(dbConnection)
+    var hasGit = false
+    var gitSubstring: String? = null
     private var currentPage = 1
     private val itemsPerPage = 7
     private var totalPages = 1
@@ -38,7 +40,7 @@ class StudentListController(private val studentListView: StudentListView) {
         students.readFromFile("students")
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         students.addObserver(studentListView)
-        dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage))
+        dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage, hasGit, gitSubstring))
         //TODO: избавиться от костыля с пробросом пути к файлу
         setupPaginationControls()
         setupControlArea()
@@ -53,7 +55,7 @@ class StudentListController(private val studentListView: StudentListView) {
             showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
         }
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
-        val studentList = students.get_k_n_student_short_list(currentPage, itemsPerPage)
+        val studentList = students.get_k_n_student_short_list(currentPage, itemsPerPage, hasGit, gitSubstring)
         dataListStudentShort = Data_list_student_short(studentList)
         val studentObservableList = FXCollections.observableArrayList(studentList)
         dataListStudentShort.notify(studentObservableList, this.studentListView.table)
