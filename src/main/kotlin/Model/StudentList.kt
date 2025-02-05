@@ -58,8 +58,8 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.size
     }
 
-    fun readFromFile(filePath: String){
-        students = strategy.readFromFile(filePath)
+    fun readFromFile(dataSource: String?){
+        students = strategy.readFromFile(dataSource)
         notifyObservers()
     }
 

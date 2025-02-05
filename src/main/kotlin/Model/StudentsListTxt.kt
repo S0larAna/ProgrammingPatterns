@@ -5,7 +5,10 @@ import java.io.FileNotFoundException
 import java.io.IOException
 
 class StudentsListTxt(): StudentListStrategy {
-    override fun writeToFile(students: MutableList<Student>, filePath: String) {
+    override fun writeToFile(students: MutableList<Student>, filePath: String?) {
+        if (filePath == null) {
+            throw IllegalArgumentException("File path is null")
+        }
         val file = File(filePath)
 
         try {
@@ -21,7 +24,10 @@ class StudentsListTxt(): StudentListStrategy {
             throw IOException("Error writing to file: ${file.absolutePath}", e)
         }
     }
-    override fun readFromFile(filePath: String): MutableList<Student> {
+    override fun readFromFile(filePath: String?): MutableList<Student> {
+        if (filePath == null) {
+            throw IllegalArgumentException("File path is null")
+        }
         val students = mutableListOf<Student>()
         try {
             val file = File(filePath)

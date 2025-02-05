@@ -3,15 +3,12 @@ package Controller
 import AddStudentWindow
 import DBConnection.DatabaseManager
 import DBConnection.Students_list_DB
-import Model.Data_list_student_short
-import Model.StudentList
-import Model.StudentListDBAdapter
+import Model.*
 import View.StudentListView
 import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.HBox
@@ -43,8 +40,8 @@ class StudentListController(private val studentListView: StudentListView) {
             showErrorAlert("db connection error", "Возникла ошибка при подключении к базе данных")
         }
         System.out.println(studentDb.getStudentById(1))
-        students = StudentList(StudentListDBAdapter(Students_list_DB(dbConnection)))
-        students.readFromFile("students")
+        students = StudentList(StudentsListTxt())
+        students.readFromFile("C:\\Users\\bodya\\IdeaProjects\\ProgrammingPatterns\\src\\main\\resources\\students.txt")
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         students.addObserver(studentListView)
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage, gitSubstring, initialsSubstring, emailSubstring, telegramSubstring, phoneSubstring))
@@ -55,7 +52,7 @@ class StudentListController(private val studentListView: StudentListView) {
 
     fun updateTableData() {
         try {
-            students.readFromFile("students")
+            students.readFromFile("C:\\Users\\bodya\\IdeaProjects\\ProgrammingPatterns\\src\\main\\resources\\students.json")
         }
         catch (e: Exception) {
             println(e.message)
@@ -90,6 +87,16 @@ class StudentListController(private val studentListView: StudentListView) {
         }
 
         updatePageInfo(pageInfo)
+    }
+
+    private fun selectStrategy(type: String): StudentListStrategy {
+        return when (type.toLowerCase()) {
+            "json" -> StudentsListJSON()
+            "yaml" -> StudentsListYAML()
+            "txt" -> StudentsListTxt()
+            "db" -> StudentListDBAdapter(studentDb)
+            else -> throw IllegalArgumentException("Unknown strategy type")
+        }
     }
 
     fun updatePageInfo(label: Label) {

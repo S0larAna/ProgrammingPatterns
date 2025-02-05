@@ -6,9 +6,12 @@ import kotlinx.serialization.json.*
 
 class StudentsListJSON(): StudentListStrategy {
 
-    override fun readFromFile(filePath: String): MutableList<Student>{
+    override fun readFromFile(filePath: String?): MutableList<Student>{
         var students = mutableListOf<Student>()
         try {
+            if (filePath == null) {
+                throw IllegalArgumentException("File path is null")
+            }
             val jsonString = File(filePath).bufferedReader(Charsets.UTF_8).use {
                 it.readText()
             }
@@ -36,16 +39,20 @@ class StudentsListJSON(): StudentListStrategy {
         return students
     }
 
-    override fun writeToFile(students: MutableList<Student>, filePath: String){
+    override fun writeToFile(students: MutableList<Student>, filePath: String?){
         try {
             val json = Json {
                 prettyPrint = true
+            }
+            if (filePath == null) {
+                throw IllegalArgumentException("File path is null")
             }
             val file = File(filePath)
             val jsonObject = buildJsonObject {
                 putJsonArray("students") {
                     students.forEach { student ->
                         addJsonObject {
+                            put("id", student.id)
                             put("firstName", student.firstName)
                             put("lastName", student.lastName)
                             put("middleName", student.middleName)

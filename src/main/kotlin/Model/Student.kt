@@ -168,7 +168,8 @@ class Student(
     }
 
     fun toFileString(): String {
-        return "lastName:$lastName," +
+        return "id:$id,"+
+                "lastName:$lastName," +
                 "firstName:$firstName," +
                 "middleName:$middleName," +
                 "phone:${phone ?: ""}," +
