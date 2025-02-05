@@ -2,9 +2,8 @@ package DBConnection
 import Model.Data_list
 import Model.Data_list_student_short
 import Model.Student
+import Model.StudentListStrategy
 import Model.Student_short
-import java.sql.SQLException
-import java.sql.Statement
 
 class Students_list_DB(private val dbManager: DatabaseManager) {
 
@@ -33,6 +32,7 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
     fun writeStudents(students: List<Student>){
         for (student in students){
             addStudent(student)
+            println(student.toString())
         }
     }
 
@@ -80,41 +80,29 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
         return Data_list_student_short(studentShortList)
     }
 
-    fun addStudent(student: Student): Int {
-        dbManager.connection.use { connection ->
-            val query = """
-                INSERT INTO students 
-                (last_name, first_name, middle_name, phone, telegram, email, github) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """.trimIndent()
+    fun addStudent(student: Student) {
+        val query = """
+        INSERT INTO students
+        (last_name, first_name, middle_name, phone, telegram, email, github)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """.trimIndent()
 
-            dbManager.connection?.prepareStatement(query, Statement.RETURN_GENERATED_KEYS).use { statement ->
-                if (statement != null) {
-                    statement.setString(1, student.lastName)
-                    statement.setString(2, student.firstName)
-                    statement.setString(3, student.middleName)
-                    statement.setString(4, student.phone)
-                    statement.setString(5, student.telegram)
-                    statement.setString(6, student.email)
-                    statement.setString(7, student.github)
-                    statement.executeUpdate()
-
-                    val generatedKeys = statement.generatedKeys
-                    if (generatedKeys.next()) {
-                        return generatedKeys.getInt(1)
-                    }
-                }
-            }
+        dbManager.connection?.prepareStatement(query)?.use { statement ->
+            statement.setString(1, student.lastName)
+            statement.setString(2, student.firstName)
+            statement.setString(3, student.middleName)
+            statement.setString(4, student.phone)
+            statement.setString(5, student.telegram)
+            statement.setString(6, student.email)
+            statement.setString(7, student.github)
+            statement.executeUpdate()
         }
-        throw SQLException("Не удалось получить сгенерированный ID")
     }
 
     fun updateStudent(id: Int, student: Student) {
         require(id > 0) { "ID студента должен быть положительным числом" }
-
-        dbManager.connection?.use { connection ->
-            val query = """
-            UPDATE students 
+        val query = """
+        UPDATE students 
             SET last_name = ?, 
                 first_name = ?, 
                 middle_name = ?, 
@@ -123,20 +111,18 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
                 email = ?, 
                 github = ? 
             WHERE id = ?
-        """.trimIndent()
+    """.trimIndent()
 
-            connection.prepareStatement(query).use { statement ->
-                statement.setString(1, student.lastName)
-                statement.setString(2, student.firstName)
-                statement.setString(3, student.middleName)
-                statement.setString(4, student.phone)
-                statement.setString(5, student.telegram)
-                statement.setString(6, student.email)
-                statement.setString(7, student.github)
-                statement.setInt(8, student.id)
-
-                val updatedRows = statement.executeUpdate()
-            }
+        dbManager.connection?.prepareStatement(query)?.use { statement ->
+            statement.setString(1, student.lastName)
+            statement.setString(2, student.firstName)
+            statement.setString(3, student.middleName)
+            statement.setString(4, student.phone)
+            statement.setString(5, student.telegram)
+            statement.setString(6, student.email)
+            statement.setString(7, student.github)
+            statement.setInt(8, student.id)
+            statement.executeUpdate()
         }
     }
 

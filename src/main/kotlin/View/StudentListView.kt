@@ -142,6 +142,6 @@ class StudentListView: VBox(), Observer {
 
     override fun setTableData(dataTable: List<Student_short>) {
         val studentObservableList = FXCollections.observableArrayList(dataTable)
-        table.items.addAll(studentObservableList)
+        table.items.setAll(studentObservableList)
     }
 }
