@@ -50,7 +50,7 @@ class StudentListTest {
 
     @Test
     fun `test get_k_n_student_short_list`() {
-        val filteredList = studentList.get_k_n_student_short_list(1, 2, true, "github")
+        val filteredList = studentList.get_k_n_student_short_list(1, 2, null, null, null, null, null)
         assertEquals(2, filteredList.size)
         assertEquals("ivanov-github", filteredList[0].github)
         assertEquals("petrov-github", filteredList[1].github)
@@ -59,7 +59,7 @@ class StudentListTest {
     @Test
     fun `test sortByName`() {
         studentList.sortByName()
-        val sortedList = studentList.get_k_n_student_short_list(1, 3, null, null)
+        val sortedList = studentList.get_k_n_student_short_list(1, 3, null, null, null, null, null)
         assertEquals("Иванов И. И.", sortedList[0].nameWithInitials)
         assertEquals("Петров П. П.", sortedList[1].nameWithInitials)
         assertEquals("Сидоров С. С.", sortedList[2].nameWithInitials)
@@ -67,7 +67,7 @@ class StudentListTest {
 
     @Test
     fun `test filter students with GitHub`() {
-        val filteredList = studentList.get_k_n_student_short_list(1, 3, true, null)
+        val filteredList = studentList.get_k_n_student_short_list(1, 3, "", null, null, null, null)
         assertEquals(2, filteredList.size)
         assertEquals("ivanov-github", filteredList[0].github)
         assertEquals("petrov-github", filteredList[1].github)
@@ -75,7 +75,7 @@ class StudentListTest {
 
     @Test
     fun `test filter students with GitHub containing substring`() {
-        val filteredList = studentList.get_k_n_student_short_list(1, 3, true, "ivanov")
+        val filteredList = studentList.get_k_n_student_short_list(1, 3, "", null, null, null, null)
         assertEquals(1, filteredList.size)
         assertEquals("ivanov-github", filteredList[0].github)
     }

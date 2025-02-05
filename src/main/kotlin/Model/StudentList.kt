@@ -12,14 +12,17 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.find { it.id == id }
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int, hasGit: Boolean?, gitSubstring: String?): List<Student_short> {
-        var filteredList = students
-        if (hasGit==true) {
-            filteredList = students.filter { it.github != null }.toMutableList()
-            if (gitSubstring != null) {
-                filteredList = filteredList.filter { it.github != null && it.github!!.contains(gitSubstring) }.toMutableList()
-            }
-        }
+    fun get_k_n_student_short_list(k: Int, n: Int, gitSubstring: String?, nameSubstring: String?, emailSubstring: String?, telegramSubstring: String?, phoneSubstring: String?): List<Student_short> {
+        val filters = mutableListOf<StudentFilter>()
+        if (gitSubstring != null) filters.add(GitHubFilter(gitSubstring))
+        if (nameSubstring != null) filters.add(NameFilter(nameSubstring))
+        if (emailSubstring != null) filters.add(EmailFilter(emailSubstring))
+        if (telegramSubstring != null) filters.add(TelegramFilter(telegramSubstring))
+        if (phoneSubstring != null) filters.add(PhoneFilter(phoneSubstring))
+
+        val filterDecorator = StudentFilterDecorator(filters)
+        val filteredList = filterDecorator.filter(students)
+
         val startIndex = (k - 1) * n
         val endIndex = minOf(startIndex + n, filteredList.size)
         return filteredList.subList(startIndex, endIndex).map { Student_short(it) }

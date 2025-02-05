@@ -23,8 +23,11 @@ class StudentListController(private val studentListView: StudentListView) {
     private var dataListStudentShort: Data_list_student_short
     val dbConnection = DatabaseManager
     val studentDb = Students_list_DB(dbConnection)
-    var hasGit = false
     var gitSubstring: String? = null
+    var emailSubstring: String? = null
+    var phoneSubstring: String? = null
+    var telegramSubstring: String? = null
+    var initialsSubstring: String? = null
     private var currentPage = 1
     private val itemsPerPage = 7
     private var totalPages = 1
@@ -44,7 +47,7 @@ class StudentListController(private val studentListView: StudentListView) {
         students.readFromFile("students")
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         students.addObserver(studentListView)
-        dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage, hasGit, gitSubstring))
+        dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage, gitSubstring, initialsSubstring, emailSubstring, telegramSubstring, phoneSubstring))
         //TODO: избавиться от костыля с пробросом пути к файлу
         setupPaginationControls()
         setupControlArea()
@@ -59,7 +62,7 @@ class StudentListController(private val studentListView: StudentListView) {
             showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
         }
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
-        val studentList = students.get_k_n_student_short_list(currentPage, itemsPerPage, hasGit, gitSubstring)
+        val studentList = students.get_k_n_student_short_list(currentPage, itemsPerPage, gitSubstring, initialsSubstring, emailSubstring, telegramSubstring, phoneSubstring)
         dataListStudentShort = Data_list_student_short(studentList)
         val studentObservableList = FXCollections.observableArrayList(studentList)
         dataListStudentShort.notify(studentObservableList, this.studentListView.table)
@@ -138,10 +141,11 @@ class StudentListController(private val studentListView: StudentListView) {
             }
         }
         updateButton.setOnAction {
-            //TODO пофиксить проперти фильтрации
-            val selectedValue = ((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<Any>
-            hasGit = selectedValue.value == "Да"
             gitSubstring = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[1] as TextField).text
+            emailSubstring = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[1] as TextField).text
+            phoneSubstring = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[1] as TextField).text
+            telegramSubstring = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[1] as TextField).text
+            initialsSubstring = ((studentListView.filterArea.children[0] as HBox).children[1] as TextField).text
             updateTableData()
         }
     }
