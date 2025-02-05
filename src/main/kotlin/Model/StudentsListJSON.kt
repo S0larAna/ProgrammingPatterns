@@ -18,7 +18,10 @@ class StudentsListJSON(): StudentListStrategy {
                     var studentHash = HashMap<String, Any?>()
                     it.jsonObject.entries.forEach {
                         val (key, value) = it.toPair()
-                        studentHash[key] = value.toString().replace("\"", "")
+                        if (key=="id") {
+                            studentHash[key] = value.toString().toInt()
+                        }
+                        else studentHash[key] = value.toString().replace("\"", "")
                         println(studentHash)
                     }
                     println(studentHash["phone"])

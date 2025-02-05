@@ -1,42 +1,47 @@
 {
   "students": [
     {
-      "lastName": "Иванов",
-      "firstName": "Александр",
-      "middleName": "Петрович",
+      "id": 1,
+      "lastName": "РРІР°РЅРѕРІ",
+      "firstName": "РђР»РµРєСЃР°РЅРґСЂ",
+      "middleName": "РџРµС‚СЂРѕРІРёС‡",
       "phone": "+79001234567",
       "telegram": "@ivanov_alex",
       "email": "ivanov.a@gmail.com",
-      "github": "https://github.com/alex-ivanov"
+      "github": "alex-ivanov"
     },
     {
-      "lastName": "Петрова",
-      "firstName": "Мария",
-      "middleName": "Сергеевна",
+      "id": 2,
+      "lastName": "РџРµС‚СЂРѕРІР°",
+      "firstName": "РњР°СЂРёСЏ",
+      "middleName": "РЎРµСЂРіРµРµРІРЅР°",
       "email": "petrova.m@gmail.com",
       "telegram": "@maria_p"
     },
     {
-      "lastName": "Сидоров",
-      "firstName": "Дмитрий",
-      "middleName": "Александрович",
+      "id": 3,
+      "lastName": "РЎРёРґРѕСЂРѕРІ",
+      "firstName": "Р”РјРёС‚СЂРёР№",
+      "middleName": "РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡",
       "phone": "+79001234567",
-      "github": "https://github.com/sid-dmitriy"
+      "github": "sid-dmitriy"
     },
     {
-      "lastName": "Козлова",
-      "firstName": "Анна",
-      "middleName": "Владимировна",
+      "id": 4,
+      "lastName": "РљРѕР·Р»РѕРІР°",
+      "firstName": "РђРЅРЅР°",
+      "middleName": "Р’Р»Р°РґРёРјРёСЂРѕРІРЅР°",
       "telegram": "@kozlova_anna",
       "email": "anna.kozlova@gmail.com"
     },
     {
-      "lastName": "Морозов",
-      "firstName": "Игорь",
-      "middleName": "Андреевич",
+      "id": 5,
+      "lastName": "РњРѕСЂРѕР·РѕРІ",
+      "firstName": "РРіРѕСЂСЊ",
+      "middleName": "РђРЅРґСЂРµРµРІРёС‡",
       "phone": "+79001234567",
       "telegram": "@morozov_igor",
-      "github": "https://github.com/igor-morozov",
+      "github": "igor-morozov",
       "email": "morozov.i@gmail.com"
     }
   ]
