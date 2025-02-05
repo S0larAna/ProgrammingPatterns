@@ -54,27 +54,27 @@ open class StudentBase {
 
         fun isValidPhoneNumber(phone: String): Boolean {
             val regex = Regex("^\\+?[0-9]{10,13}\$")
-            return regex.matches(phone)
+            return regex.matches(phone)||phone.isEmpty()
         }
 
         fun isValidTelegramHandle(telegram: String): Boolean {
             val regex = Regex("^@[a-zA-Z0-9_]{5,32}\$")
-            return regex.matches(telegram)
+            return regex.matches(telegram)||telegram.isEmpty()
         }
 
         fun isValidEmail(email: String): Boolean {
             val regex = Regex("^[\\w.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}\$")
-            return regex.matches(email)
+            return regex.matches(email)||email.isEmpty()
         }
 
         fun isValidGithubUsername(github: String): Boolean {
             val regex = Regex("^[a-zA-Z0-9-]{1,39}\$")
-            return regex.matches(github)
+            return regex.matches(github)||github.isEmpty()
         }
 
         fun isValidName(name: String): Boolean {
             val regex = Regex("^[А-Я]{1}[а-я]{1,39}\$")
-            return regex.matches(name)
+            return regex.matches(name)&&name.isNotEmpty()
         }
     }
 }
