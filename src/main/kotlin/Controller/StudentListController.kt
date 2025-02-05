@@ -6,7 +6,6 @@ import DBConnection.Students_list_DB
 import Model.Data_list_student_short
 import Model.StudentList
 import Model.StudentListDBAdapter
-import Model.Student_short
 import View.StudentListView
 import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
@@ -18,12 +17,13 @@ import javafx.stage.Stage
 class StudentListController(private val studentListView: StudentListView) {
     private lateinit var students: StudentList
     private lateinit var dataListStudentShort: Data_list_student_short
+    val dbConnection = DatabaseManager
+    val studentDb = Students_list_DB(dbConnection)
     private var currentPage = 1
     private val itemsPerPage = 7
     private var totalPages = 1
 
     init {
-        val dbConnection = DatabaseManager
         try {
             dbConnection.connect()
             if (dbConnection.connection==null){
@@ -33,11 +33,11 @@ class StudentListController(private val studentListView: StudentListView) {
         catch (e: Exception) {
             showErrorAlert("db connection error", "Возникла ошибка при подключении к базе данных")
         }
-        val studentDb = Students_list_DB(dbConnection)
         System.out.println(studentDb.getStudentById(1))
         students = StudentList(StudentListDBAdapter(Students_list_DB(dbConnection)))
         students.readFromFile("students")
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
+        students.addObserver(studentListView)
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage))
         //TODO: избавиться от костыля с пробросом пути к файлу
         setupPaginationControls()
@@ -49,6 +49,7 @@ class StudentListController(private val studentListView: StudentListView) {
             students.readFromFile("students")
         }
         catch (e: Exception) {
+            println(e.message)
             showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
         }
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
@@ -110,21 +111,28 @@ class StudentListController(private val studentListView: StudentListView) {
             }
         })
 
-        // Add event handlers for buttons (add, edit, delete, update)
-        // Example:
         addButton.setOnAction {
             println("Add button clicked")
-            val addStudentWindow = AddStudentWindow()
+            val addStudentWindow = AddStudentWindow(students, this)
             addStudentWindow.start(Stage())
         }
         editButton.setOnAction {
-            // Edit student logic
+            val selectedStudentId = studentListView.table.selectionModel.selectedItem.id
+            val selectedStudent = students.getStudentById(selectedStudentId)
+            val addStudentWindow = AddStudentWindow(students, this, selectedStudent,
+                selectedStudent?.let { it1 -> UpdateStudentController(it1, students, this, dbConnection) })
+            addStudentWindow.start(Stage())
         }
         deleteButton.setOnAction {
-            // Delete student logic
+            val selectedStudents = studentListView.table.selectionModel.selectedItems
+
+            selectedStudents.forEach { student ->
+                students.removeStudent(student.id)
+                studentDb.deleteStudent(student.id)
+            }
         }
         updateButton.setOnAction {
-            // Update student list logic
+            //TODO: реализовать обновление таблицы
         }
     }
 
