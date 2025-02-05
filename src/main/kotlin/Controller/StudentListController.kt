@@ -15,8 +15,8 @@ import javafx.scene.control.Label
 import javafx.stage.Stage
 
 class StudentListController(private val studentListView: StudentListView) {
-    private lateinit var students: StudentList
-    private lateinit var dataListStudentShort: Data_list_student_short
+    private var students: StudentList
+    private var dataListStudentShort: Data_list_student_short
     val dbConnection = DatabaseManager
     val studentDb = Students_list_DB(dbConnection)
     private var currentPage = 1

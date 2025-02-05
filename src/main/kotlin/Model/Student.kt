@@ -12,6 +12,10 @@ class Student(
 ): StudentBase(), Comparable<Student> {
 
     init {
+        if (!isValidName(lastName) || !isValidName(firstName) || !isValidName(middleName)) {
+            throw IllegalArgumentException("Invalid name format")
+        }
+
         if (phone != null && !isValidPhoneNumber(phone)) {
             throw IllegalArgumentException("Invalid phone number format")
         }

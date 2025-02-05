@@ -18,6 +18,7 @@ open class StudentBase {
                 println(pair)
                 val (key, value) = pair.split(":", limit=2).map { it.trim() }
                 when (key) {
+                    "id" -> data[key] = value.toInt()
                     "lastName", "firstName", "middleName" -> data[key] = value
                     "phone", "telegram", "email", "github" -> if (value.isNotEmpty()) data[key] = value
                     else -> throw IllegalArgumentException("Unknown key: $key")
@@ -39,7 +40,7 @@ open class StudentBase {
                 println(pair)
                 val (key, value) = pair.split(":", limit=2).map { it.trim() }
                 when (key) {
-                    "lastName", "firstName", "middleName" -> data[key] = value
+                    "id", "lastName", "firstName", "middleName" -> data[key] = value
                     "phone", "telegram", "email", "github" -> if (value.isNotEmpty()) data[key] = value
                     else -> throw IllegalArgumentException("Unknown key: $key")
                 }
