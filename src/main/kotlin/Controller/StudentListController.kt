@@ -26,6 +26,7 @@ class StudentListController(private val studentListView: StudentListView) {
     var totalPages = 1
 
     init {
+        this.getFilters()
         this.updateStrategy("database")
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         students.addObserver(studentListView)
@@ -42,8 +43,9 @@ class StudentListController(private val studentListView: StudentListView) {
             println(e.message)
             showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
         }
-        totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         val studentList = students.get_k_n_student_short_list(currentPage, itemsPerPage, filterSubstrings, filters)
+        totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
+        updatePageInfo(studentListView.paginationControls.children[1] as Label)
         dataListStudentShort = Data_list_student_short(studentList)
         val studentObservableList = FXCollections.observableArrayList(studentList)
         dataListStudentShort.notify(studentObservableList, this.studentListView.table)
@@ -150,17 +152,22 @@ class StudentListController(private val studentListView: StudentListView) {
             }
         }
         updateButton.setOnAction {
-            filterSubstrings["gitSubstring"] = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[1] as TextField).text
-            filterSubstrings["emailSubstring"] = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[1] as TextField).text
-            filterSubstrings["phoneSubstring"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[1] as TextField).text
-            filterSubstrings["telegramSubstring"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[1] as TextField).text
-            filterSubstrings["initialsSubstring"] = ((studentListView.filterArea.children[0] as HBox).children[1] as TextField).text
-            filters["hasGit"] = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
-            filters["hasEmail"] = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
-            filters["hasPhone"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
-            filters["hasTelegram"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
+            currentPage=1
+            getFilters()
             updateTableData()
         }
+    }
+
+    private fun getFilters(){
+        filterSubstrings["gitSubstring"] = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[1] as TextField).text
+        filterSubstrings["emailSubstring"] = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[1] as TextField).text
+        filterSubstrings["phoneSubstring"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[1] as TextField).text
+        filterSubstrings["telegramSubstring"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[1] as TextField).text
+        filterSubstrings["initialsSubstring"] = ((studentListView.filterArea.children[0] as HBox).children[1] as TextField).text
+        filters["hasGit"] = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
+        filters["hasEmail"] = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
+        filters["hasPhone"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
+        filters["hasTelegram"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
     }
 
     private fun showErrorAlert(title: String, message: String) {

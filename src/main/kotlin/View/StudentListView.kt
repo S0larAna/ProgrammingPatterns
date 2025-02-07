@@ -145,9 +145,7 @@ class StudentListView: VBox(), Observer {
     }
 
     override fun wholeEntitiesCount() {
-        val currentPage = controller.currentPage
-        val totalPages = controller.totalPages
-        (paginationControls.children[1] as Label).text = "Страница $currentPage из $totalPages"
+        controller.updatePageInfo(paginationControls.children[1] as Label)
     }
 
     override fun setTableData(dataTable: List<Student_short>) {

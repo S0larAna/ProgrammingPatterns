@@ -12,7 +12,11 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.find { it.id == id }
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int, filterSubstrings: MutableMap<String, String?>, filterValues: MutableMap<String, String?>): List<Student_short> {
+    fun get_k_n_student_short_list(
+        k: Int,
+        n: Int,
+        filterSubstrings: MutableMap<String, String?>,
+        filterValues: MutableMap<String, String?>): List<Student_short> {
         val filters = mutableListOf<StudentFilter>()
         if (filterValues["hasGit"]!="Не важно") filters.add(GitHubFilter(filterSubstrings["gitSubstring"], filterValues["hasGit"]!!))
         filters.add(NameFilter(filterSubstrings["initialsSubstring"]))
@@ -21,11 +25,11 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         if (filterValues["hasPhone"]!="Не важно") filters.add(PhoneFilter(filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!))
 
         val filterDecorator = StudentFilterDecorator(filters)
-        val filteredList = filterDecorator.filter(students)
+        students = filterDecorator.filter(students).toMutableList()
 
         val startIndex = (k - 1) * n
-        val endIndex = minOf(startIndex + n, filteredList.size)
-        return filteredList.subList(startIndex, endIndex).map { Student_short(it) }
+        val endIndex = minOf(startIndex + n, students.size)
+        return students.subList(startIndex, endIndex).map { Student_short(it) }
     }
 
     fun sortByName() {
@@ -34,7 +38,6 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
 
     fun addStudent(student: Student) {
         students.add(student)
-        //TODO фиксануть костыль
         writeToFile(mutableListOf(student))
         println(student.toString())
         notifyObservers()
@@ -64,7 +67,7 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
     }
 
     fun writeToFile(student: MutableList<Student>){
-        strategy.writeToFile(student, )
+        strategy.writeToFile(student)
     }
 
     override fun addObserver(observer: Observer) {
