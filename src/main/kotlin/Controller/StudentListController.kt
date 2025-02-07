@@ -15,6 +15,7 @@ import javafx.scene.control.TextField
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import java.util.*
 
 class StudentListController(private val studentListView: StudentListView) {
     private lateinit var students: StudentList
@@ -96,8 +97,8 @@ class StudentListController(private val studentListView: StudentListView) {
                 }
                 catch (e: Exception) {
                     showErrorAlert("db connection error", "Возникла ошибка при подключении к базе данных")
+                    throw e
                 }
-                StudentListDBAdapter(studentDb)
             }
             else -> throw IllegalArgumentException("Unknown strategy type")
         }
@@ -132,7 +133,6 @@ class StudentListController(private val studentListView: StudentListView) {
         })
 
         addButton.setOnAction {
-            println("Add button clicked")
             val addStudentWindow = AddStudentWindow(students, this)
             addStudentWindow.start(Stage())
         }
@@ -161,15 +161,20 @@ class StudentListController(private val studentListView: StudentListView) {
     }
 
     private fun getFilters(){
-        filterSubstrings["gitSubstring"] = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[1] as TextField).text
-        filterSubstrings["emailSubstring"] = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[1] as TextField).text
-        filterSubstrings["phoneSubstring"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[1] as TextField).text
-        filterSubstrings["telegramSubstring"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[1] as TextField).text
+        val filterFields = listOf(
+            "gitSubstring" to 1,
+            "emailSubstring" to 2,
+            "phoneSubstring" to 3,
+            "telegramSubstring" to 4
+        )
+
+        filterFields.forEach { (key, index) ->
+            filterSubstrings[key] = (((studentListView.filterArea.children[index] as VBox).children[1] as HBox).children[1] as TextField).text
+            filters["has${
+                key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }.removeSuffix("Substring")}"] = FilterOption.fromText((((studentListView.filterArea.children[index] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
+        }
+
         filterSubstrings["initialsSubstring"] = ((studentListView.filterArea.children[0] as HBox).children[1] as TextField).text
-        filters["hasGit"] = FilterOption.fromText((((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
-        filters["hasEmail"] = FilterOption.fromText((((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
-        filters["hasPhone"] = FilterOption.fromText((((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
-        filters["hasTelegram"] = FilterOption.fromText((((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
     }
 
     private fun showErrorAlert(title: String, message: String) {

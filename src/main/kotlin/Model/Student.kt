@@ -130,7 +130,7 @@ class Student(
             println("Doesn't have GitHub")
         }
         if (!hasAnyContactinfo()) {
-            println("Doesn't have any contact information")
+            //println("Doesn't have any contact information")
         }
     }
 
