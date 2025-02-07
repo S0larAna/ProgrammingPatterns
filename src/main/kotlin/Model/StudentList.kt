@@ -35,7 +35,7 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
     fun addStudent(student: Student) {
         students.add(student)
         //TODO фиксануть костыль
-        writeToFile("students", mutableListOf(student))
+        writeToFile(mutableListOf(student))
         println(student.toString())
         notifyObservers()
     }
@@ -58,13 +58,13 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.size
     }
 
-    fun readFromFile(dataSource: String?){
-        students = strategy.readFromFile(dataSource)
+    fun readFromFile(){
+        students = strategy.readFromFile()
         notifyObservers()
     }
 
-    fun writeToFile(filePath: String, student: MutableList<Student>){
-        strategy.writeToFile(student, filePath)
+    fun writeToFile(student: MutableList<Student>){
+        strategy.writeToFile(student, )
     }
 
     override fun addObserver(observer: Observer) {
