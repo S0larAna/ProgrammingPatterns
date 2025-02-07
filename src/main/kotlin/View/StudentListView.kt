@@ -17,12 +17,19 @@ class StudentListView: VBox(), Observer {
     val filterArea: VBox = createFilterArea()
     val controlArea: HBox = createControlArea()
     val paginationControls: HBox = createPaginationControls()
+    private val dataSourceComboBox = ComboBox<String>()
+
     val controller: StudentListController = StudentListController(this)
     init {
+        dataSourceComboBox.items.addAll("Database", "JSON", "YAML", "TXT")
+        dataSourceComboBox.value = "Database"
+        dataSourceComboBox.setOnAction {
+            controller.updateStrategy(dataSourceComboBox.value)
+        }
         controller.updateTableData()
         padding = Insets(10.0)
         spacing = 10.0
-        children.addAll(filterArea, table, paginationControls, controlArea)
+        children.addAll(dataSourceComboBox, filterArea, table, paginationControls, controlArea)
     }
 
     private fun createStudentTable(): TableView<Student_short> {
@@ -138,7 +145,9 @@ class StudentListView: VBox(), Observer {
     }
 
     override fun wholeEntitiesCount() {
-        controller.updatePageInfo(paginationControls.children[1] as Label)
+        val currentPage = controller.currentPage
+        val totalPages = controller.totalPages
+        (paginationControls.children[1] as Label).text = "Страница $currentPage из $totalPages"
     }
 
     override fun setTableData(dataTable: List<Student_short>) {

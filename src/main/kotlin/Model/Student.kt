@@ -98,7 +98,7 @@ class Student(
         }
 
     constructor(data: HashMap<String, Any?>) : this(
-        id = data["id"] as Int,
+        id = data["id"] as? Int?: generateId(),
         lastName = data["lastName"] as? String?: throw IllegalArgumentException("Invalid lastName format"),
         firstName = data["firstName"] as? String?: throw IllegalArgumentException("Invalid firstName format"),
         middleName = data["middleName"] as? String?: throw IllegalArgumentException("Illegal middleName"),

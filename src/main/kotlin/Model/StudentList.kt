@@ -12,13 +12,13 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.find { it.id == id }
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int, gitSubstring: String?, nameSubstring: String?, emailSubstring: String?, telegramSubstring: String?, phoneSubstring: String?): List<Student_short> {
+    fun get_k_n_student_short_list(k: Int, n: Int, filterSubstrings: MutableMap<String, String?>, filterValues: MutableMap<String, String?>): List<Student_short> {
         val filters = mutableListOf<StudentFilter>()
-        if (gitSubstring != null) filters.add(GitHubFilter(gitSubstring))
-        if (nameSubstring != null) filters.add(NameFilter(nameSubstring))
-        if (emailSubstring != null) filters.add(EmailFilter(emailSubstring))
-        if (telegramSubstring != null) filters.add(TelegramFilter(telegramSubstring))
-        if (phoneSubstring != null) filters.add(PhoneFilter(phoneSubstring))
+        if (filterValues["hasGit"]!="Не важно") filters.add(GitHubFilter(filterSubstrings["gitSubstring"], filterValues["hasGit"]!!))
+        filters.add(NameFilter(filterSubstrings["initialsSubstring"]))
+        if (filterValues["hasEmail"]!="Не важно") filters.add(EmailFilter(filterSubstrings["emailSubstring"], filterValues["hasEmail"]!!))
+        if (filterValues["hasTelegram"]!="Не важно") filters.add(TelegramFilter(filterSubstrings["telegramSubstring"], filterValues["hasTelegram"]!!))
+        if (filterValues["hasPhone"]!="Не важно") filters.add(PhoneFilter(filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!))
 
         val filterDecorator = StudentFilterDecorator(filters)
         val filteredList = filterDecorator.filter(students)

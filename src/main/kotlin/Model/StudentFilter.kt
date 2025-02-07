@@ -4,12 +4,16 @@ interface StudentFilter {
     fun filter(students: List<Student>): List<Student>
 }
 
-class GitHubFilter(private val gitSubstring: String?) : StudentFilter {
+class GitHubFilter(private val gitSubstring: String?, private val hasGit: String) : StudentFilter {
     override fun filter(students: List<Student>): List<Student> {
-        return if (gitSubstring != null) {
+        return if (gitSubstring != null && hasGit == "Да") {
             students.filter { it.github != null && it.github!!.contains(gitSubstring) }
-        } else {
-            students.filter { it.github != null }
+        }
+        else if (gitSubstring != null && hasGit == "Нет") {
+            students.filter { it.github == null }
+        }
+        else {
+            students
         }
     }
 }
@@ -24,9 +28,9 @@ class NameFilter(private val nameSubstring: String?) : StudentFilter {
     }
 }
 
-class EmailFilter(private val emailSubstring: String?) : StudentFilter {
+class EmailFilter(private val emailSubstring: String?, private val hasEmail: String) : StudentFilter {
     override fun filter(students: List<Student>): List<Student> {
-        return if (emailSubstring != null) {
+        return if (emailSubstring != null && hasEmail == "Да") {
             students.filter { it.email != null && it.email!!.contains(emailSubstring) }
         } else {
             students
@@ -34,9 +38,9 @@ class EmailFilter(private val emailSubstring: String?) : StudentFilter {
     }
 }
 
-class TelegramFilter(private val telegramSubstring: String?) : StudentFilter {
+class TelegramFilter(private val telegramSubstring: String?, private val hasTelegram: String) : StudentFilter {
     override fun filter(students: List<Student>): List<Student> {
-        return if (telegramSubstring != null) {
+        return if (telegramSubstring != null && hasTelegram == "Да") {
             students.filter { it.telegram != null && it.telegram!!.contains(telegramSubstring) }
         } else {
             students
@@ -44,10 +48,10 @@ class TelegramFilter(private val telegramSubstring: String?) : StudentFilter {
     }
 }
 
-class PhoneFilter(private val phoneSubstring: String?) : StudentFilter {
+class PhoneFilter(private val phoneSubstring: String?, private val hasPhone: String) : StudentFilter {
     override fun filter(students: List<Student>): List<Student> {
-        return if (phoneSubstring != null) {
-            students.filter { it.telegram != null && it.telegram!!.contains(phoneSubstring) }
+        return if (phoneSubstring != null && hasPhone == "Да") {
+            students.filter { it.phone != null && it.phone!!.contains(phoneSubstring) }
         } else {
             students
         }
