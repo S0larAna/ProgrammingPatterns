@@ -20,10 +20,7 @@ class UpdateStudentController(private val student: Student, private val students
             student.email,
             student.github
         )
-        /*val studentDb = Students_list_DB(dbConnection)
-        studentDb.updateStudent(student.id, updatedStudent)*/
         students.replaceStudent(student.id, updatedStudent)
-        students.writeToFile(mutableListOf(updatedStudent))
         System.out.println("Updated student: $updatedStudent")
         mainController.updateTableData()
     }

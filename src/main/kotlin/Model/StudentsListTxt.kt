@@ -4,7 +4,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 
-class StudentsListTxt(var filePath: String?): StudentListStrategy {
+class StudentsListTxt(var filePath: String?): BaseStudentListFile() {
     override fun writeToFile(students: MutableList<Student>) {
         if (filePath == null) {
             throw IllegalArgumentException("File path is null")

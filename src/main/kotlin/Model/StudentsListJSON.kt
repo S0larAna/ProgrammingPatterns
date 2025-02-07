@@ -4,7 +4,7 @@ import java.io.File
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
-class StudentsListJSON(var filePath: String?): StudentListStrategy {
+class StudentsListJSON(var filePath: String?): BaseStudentListFile() {
 
     override fun readFromFile(): MutableList<Student>{
         var students = mutableListOf<Student>()

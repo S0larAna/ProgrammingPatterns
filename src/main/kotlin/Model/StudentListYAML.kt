@@ -3,9 +3,7 @@ package Model
 import java.io.File
 import org.yaml.snakeyaml.Yaml
 
-class StudentsListYAML(var filePath: String?): StudentListStrategy {
-    private var students: MutableList<Student> = mutableListOf()
-
+class StudentsListYAML(var filePath: String?): BaseStudentListFile() {
     override fun readFromFile(): MutableList<Student> {
         if (filePath == null) {
             throw IllegalArgumentException("File path is null")

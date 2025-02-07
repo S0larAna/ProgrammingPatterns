@@ -38,7 +38,7 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
 
     fun addStudent(student: Student) {
         students.add(student)
-        writeToFile(mutableListOf(student))
+        strategy.addStudent(student)
         println(student.toString())
         notifyObservers()
     }
@@ -47,12 +47,14 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         val index = students.indexOfFirst { it.id == id }
         if (index != -1) {
             students[index] = newStudent
+            strategy.updateStudent(id, newStudent)
             notifyObservers()
         }
     }
 
     fun removeStudent(id: Int) {
         if (students.removeIf { it.id == id }) {
+            strategy.removeStudent(id)
             notifyObservers()
         }
     }

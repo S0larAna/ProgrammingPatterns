@@ -74,7 +74,7 @@ class StudentListController(private val studentListView: StudentListView) {
         updatePageInfo(pageInfo)
     }
 
-    public fun updateStrategy(type: String) {
+    fun updateStrategy(type: String) {
         students = StudentList(selectStrategy(type))
         updateTableData()
     }
@@ -144,11 +144,12 @@ class StudentListController(private val studentListView: StudentListView) {
             addStudentWindow.start(Stage())
         }
         deleteButton.setOnAction {
+            currentPage=1
             val selectedStudents = studentListView.table.selectionModel.selectedItems
 
             selectedStudents.forEach { student ->
                 students.removeStudent(student.id)
-                //studentDb.deleteStudent(student.id)
+                totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
             }
         }
         updateButton.setOnAction {

@@ -14,13 +14,13 @@ import javafx.scene.layout.GridPane
 import javafx.stage.Stage
 
 class AddStudentWindow(
-    private val students: StudentList,
-    private val studentListController: StudentListController,
+    students: StudentList,
+    studentListController: StudentListController,
     private val student: Student? = null,
     private val updateStudentController: UpdateStudentController? = null
 ) : Application() {
     private lateinit var primaryStage: Stage
-    private lateinit var addStudentController: AddStudentController
+    private var addStudentController: AddStudentController
     val githubField = TextField()
     val lastNameField = TextField()
     val firstNameField = TextField()
@@ -81,6 +81,11 @@ class AddStudentWindow(
             emailField.text = if (student.email != null) student.email else ""
             githubField.text = if (student.github != null) student.github else ""
         }
+
+        phoneField.isDisable=true
+        telegramField.isDisable=true
+        emailField.isDisable=true
+        githubField.isDisable=true
 
         fields.forEach { field -> field.textProperty().addListener { _, _, _ -> addStudentController.validateFields() } }
 

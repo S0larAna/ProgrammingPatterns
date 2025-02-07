@@ -10,4 +10,16 @@ class StudentListDBAdapter(private val dbList: Students_list_DB) : StudentListSt
     override fun writeToFile(students: MutableList<Student>) {
         dbList.writeStudents(students)
     }
+
+    override fun addStudent(student: Student) {
+        dbList.addStudent(student)
+    }
+
+    override fun updateStudent(id: Int, student: Student) {
+        dbList.updateStudent(id, student)
+    }
+
+    override fun removeStudent(id: Int) {
+        dbList.deleteStudent(id)
+    }
 }

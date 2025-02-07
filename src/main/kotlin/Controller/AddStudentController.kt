@@ -32,7 +32,7 @@ class AddStudentController(private val addStudentView: AddStudentWindow, private
         val student = Student(
             hashMapOf(
                 //TODO исправить костыль
-                "id" to 1,
+                //"id" to 1,
                 "lastName" to addStudentView.lastNameField.text,
                 "firstName" to addStudentView.firstNameField.text,
                 "middleName" to addStudentView.middleNameField.text,
