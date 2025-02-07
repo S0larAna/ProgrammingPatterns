@@ -3,10 +3,10 @@ package Model
 import java.io.File
 import org.yaml.snakeyaml.Yaml
 
-class StudentsListYAML(): StudentListStrategy {
+class StudentsListYAML(var filePath: String?): StudentListStrategy {
     private var students: MutableList<Student> = mutableListOf()
 
-    override fun readFromFile(filePath: String?): MutableList<Student> {
+    override fun readFromFile(): MutableList<Student> {
         if (filePath == null) {
             throw IllegalArgumentException("File path is null")
         }
@@ -25,7 +25,7 @@ class StudentsListYAML(): StudentListStrategy {
         return students
     }
 
-    override fun writeToFile(students: MutableList<Student>, filePath: String?) {
+    override fun writeToFile(students: MutableList<Student>) {
         try {
             if (filePath == null) {
                 throw IllegalArgumentException("File path is null")

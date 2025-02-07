@@ -4,9 +4,9 @@ import java.io.File
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
-class StudentsListJSON(): StudentListStrategy {
+class StudentsListJSON(var filePath: String?): StudentListStrategy {
 
-    override fun readFromFile(filePath: String?): MutableList<Student>{
+    override fun readFromFile(): MutableList<Student>{
         var students = mutableListOf<Student>()
         try {
             if (filePath == null) {
@@ -39,7 +39,7 @@ class StudentsListJSON(): StudentListStrategy {
         return students
     }
 
-    override fun writeToFile(students: MutableList<Student>, filePath: String?){
+    override fun writeToFile(students: MutableList<Student>){
         try {
             val json = Json {
                 prettyPrint = true

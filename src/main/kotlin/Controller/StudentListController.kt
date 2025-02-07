@@ -40,19 +40,18 @@ class StudentListController(private val studentListView: StudentListView) {
             showErrorAlert("db connection error", "Возникла ошибка при подключении к базе данных")
         }
         System.out.println(studentDb.getStudentById(1))
-        students = StudentList(StudentsListTxt())
-        students.readFromFile("C:\\Users\\bodya\\IdeaProjects\\ProgrammingPatterns\\src\\main\\resources\\students.txt")
+        students = StudentList(StudentsListTxt("C:\\Users\\bodya\\IdeaProjects\\ProgrammingPatterns\\src\\main\\resources\\students.txt"))
+        students.readFromFile()
         totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
         students.addObserver(studentListView)
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(currentPage, itemsPerPage, gitSubstring, initialsSubstring, emailSubstring, telegramSubstring, phoneSubstring))
-        //TODO: избавиться от костыля с пробросом пути к файлу
         setupPaginationControls()
         setupControlArea()
     }
 
     fun updateTableData() {
         try {
-            students.readFromFile("C:\\Users\\bodya\\IdeaProjects\\ProgrammingPatterns\\src\\main\\resources\\students.json")
+            students.readFromFile()
         }
         catch (e: Exception) {
             println(e.message)
@@ -85,15 +84,14 @@ class StudentListController(private val studentListView: StudentListView) {
                 updatePageInfo(pageInfo)
             }
         }
-
         updatePageInfo(pageInfo)
     }
 
     private fun selectStrategy(type: String): StudentListStrategy {
         return when (type.toLowerCase()) {
-            "json" -> StudentsListJSON()
-            "yaml" -> StudentsListYAML()
-            "txt" -> StudentsListTxt()
+            "json" -> StudentsListJSON("./src/main/resources/students.json")
+            "yaml" -> StudentsListYAML("./src/main/resources/students.yaml")
+            "txt" -> StudentsListTxt("./src/main/resources/students.txt")
             "db" -> StudentListDBAdapter(studentDb)
             else -> throw IllegalArgumentException("Unknown strategy type")
         }
