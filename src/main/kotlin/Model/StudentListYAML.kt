@@ -32,7 +32,7 @@ class StudentsListYAML(var filePath: String?): BaseStudentListFile() {
                 out.println("students:")
                 students.forEach { student ->
                     out.println("- id: ${student.id}")
-                    out.println("  - lastName: \"${student.lastName}\"")
+                    out.println("  lastName: \"${student.lastName}\"")
                     out.println("  firstName: \"${student.firstName}\"")
                     out.println("  middleName: \"${student.middleName}\"")
                     student.phone?.let { out.println("  phone: \"$it\"") }

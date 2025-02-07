@@ -151,6 +151,7 @@ class StudentListController(private val studentListView: StudentListView) {
                 students.removeStudent(student.id)
                 totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
             }
+            updateTableData()
         }
         updateButton.setOnAction {
             currentPage=1
