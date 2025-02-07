@@ -17,15 +17,21 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         n: Int,
         filterSubstrings: MutableMap<String, String?>,
         filterValues: MutableMap<String, String?>): List<Student_short> {
-        val filters = mutableListOf<StudentFilter>()
-        if (filterValues["hasGit"]!="Не важно") filters.add(GitHubFilter(filterSubstrings["gitSubstring"], filterValues["hasGit"]!!))
-        filters.add(NameFilter(filterSubstrings["initialsSubstring"]))
-        if (filterValues["hasEmail"]!="Не важно") filters.add(EmailFilter(filterSubstrings["emailSubstring"], filterValues["hasEmail"]!!))
-        if (filterValues["hasTelegram"]!="Не важно") filters.add(TelegramFilter(filterSubstrings["telegramSubstring"], filterValues["hasTelegram"]!!))
-        if (filterValues["hasPhone"]!="Не важно") filters.add(PhoneFilter(filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!))
-
-        val filterDecorator = StudentFilterDecorator(filters)
-        students = filterDecorator.filter(students).toMutableList()
+        var filter: StudentFilter = BaseStudentFilter()
+        if (filterValues["hasGit"] != "Не важно") {
+            filter = GitHubFilter(filter, filterSubstrings["gitSubstring"], filterValues["hasGit"]!!)
+        }
+        filter = NameFilter(filter, filterSubstrings["initialsSubstring"])
+        if (filterValues["hasEmail"] != "Не важно") {
+            filter = EmailFilter(filter, filterSubstrings["emailSubstring"], filterValues["hasEmail"]!!)
+        }
+        if (filterValues["hasTelegram"] != "Не важно") {
+            filter = TelegramFilter(filter, filterSubstrings["telegramSubstring"], filterValues["hasTelegram"]!!)
+        }
+        if (filterValues["hasPhone"] != "Не важно") {
+            filter = PhoneFilter(filter, filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!)
+        }
+        students = filter.filter(students).toMutableList()
 
         val startIndex = (k - 1) * n
         val endIndex = minOf(startIndex + n, students.size)
