@@ -134,6 +134,12 @@ class Student(
         }
     }
 
+    fun getPropertyValue(propertyName: String): Any? {
+        val property = this::class.java.getDeclaredField(propertyName)
+        property.isAccessible = true
+        return property.get(this)
+    }
+
     fun setContacts(phone: String? = this.phone, telegram: String? = this.telegram, email: String? = this.email) {
         if (phone != null) this.phone = phone
         if (telegram != null) this.telegram = telegram

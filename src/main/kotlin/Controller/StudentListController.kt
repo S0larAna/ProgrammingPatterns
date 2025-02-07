@@ -20,7 +20,7 @@ class StudentListController(private val studentListView: StudentListView) {
     private lateinit var students: StudentList
     private var dataListStudentShort: Data_list_student_short
     var filterSubstrings = mutableMapOf<String, String?>("gitSubstring" to null, "nameSubstring" to null, "emailSubstring" to null, "telegramSubstring" to null, "phoneSubstring" to null)
-    var filters = mutableMapOf<String, String?>("hasGit" to "Не важно", "hasEmail" to "Не важно", "hasTelegram" to "Не важно", "hasPhone" to "Не важно")
+    var filters = mutableMapOf<String, FilterOption?>("hasGit" to FilterOption.NO_MATTER, "hasEmail" to FilterOption.NO_MATTER, "hasTelegram" to FilterOption.NO_MATTER, "hasPhone" to FilterOption.NO_MATTER)
     var currentPage = 1
     val itemsPerPage = 6
     var totalPages = 1
@@ -165,10 +165,10 @@ class StudentListController(private val studentListView: StudentListView) {
         filterSubstrings["phoneSubstring"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[1] as TextField).text
         filterSubstrings["telegramSubstring"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[1] as TextField).text
         filterSubstrings["initialsSubstring"] = ((studentListView.filterArea.children[0] as HBox).children[1] as TextField).text
-        filters["hasGit"] = (((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
-        filters["hasEmail"] = (((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
-        filters["hasPhone"] = (((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
-        filters["hasTelegram"] = (((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
+        filters["hasGit"] = FilterOption.fromText((((studentListView.filterArea.children[1] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
+        filters["hasEmail"] = FilterOption.fromText((((studentListView.filterArea.children[2] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
+        filters["hasPhone"] = FilterOption.fromText((((studentListView.filterArea.children[3] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
+        filters["hasTelegram"] = FilterOption.fromText((((studentListView.filterArea.children[4] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
     }
 
     private fun showErrorAlert(title: String, message: String) {

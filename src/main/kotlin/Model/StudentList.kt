@@ -16,21 +16,14 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         k: Int,
         n: Int,
         filterSubstrings: MutableMap<String, String?>,
-        filterValues: MutableMap<String, String?>): List<Student_short> {
+        filterValues: MutableMap<String, FilterOption?>
+    ): List<Student_short> {
         var filter: StudentFilter = BaseStudentFilter()
-        if (filterValues["hasGit"] != "Не важно") {
-            filter = GitHubFilter(filter, filterSubstrings["gitSubstring"], filterValues["hasGit"]!!)
-        }
+        filter = ContactsFilter(filter, "github", filterSubstrings["gitSubstring"], filterValues["hasGit"]!!)
         filter = NameFilter(filter, filterSubstrings["initialsSubstring"])
-        if (filterValues["hasEmail"] != "Не важно") {
-            filter = EmailFilter(filter, filterSubstrings["emailSubstring"], filterValues["hasEmail"]!!)
-        }
-        if (filterValues["hasTelegram"] != "Не важно") {
-            filter = TelegramFilter(filter, filterSubstrings["telegramSubstring"], filterValues["hasTelegram"]!!)
-        }
-        if (filterValues["hasPhone"] != "Не важно") {
-            filter = PhoneFilter(filter, filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!)
-        }
+        filter = ContactsFilter(filter, "email", filterSubstrings["emailSubstring"], filterValues["hasEmail"]!!)
+        filter = ContactsFilter(filter, "telegram", filterSubstrings["telegramSubstring"], filterValues["hasTelegram"]!!)
+        filter = ContactsFilter(filter, "phone", filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!)
         students = filter.filter(students).toMutableList()
 
         val startIndex = (k - 1) * n
