@@ -1,21 +1,25 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.0.21'
-    id 'application'
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+    id 'org.jetbrains.kotlin.jvm' version "1.9.20"
+    id("application")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
+    id("org.jetbrains.compose") version "1.5.10"
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
-
-group = 'org.example'
-version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven{url "https://maven.pkg.jetbrains.space/public/p/compose/dev"}
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation 'org.yaml:snakeyaml:2.2'
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.yaml:snakeyaml:2.2")
     implementation("org.xerial:sqlite-jdbc:3.43.0.0")
+    implementation(compose.desktop.currentOs)
+    implementation(compose.material)
+    implementation("org.openjfx:javafx-controls:20.0.2")
+    implementation("org.openjfx:javafx-fxml:20.0.2")
 }
 
 test {
@@ -26,14 +30,19 @@ kotlin {
     jvmToolchain(8)
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 application {
     mainClassName = 'MainKt'
+    applicationDefaultJvmArgs = [
+            '--add-modules=javafx.controls,javafx.fxml',
+            '-Dfile.encoding=UTF-8'
+    ]
 }
 
-tasks.withType(JavaExec) {
-    systemProperty 'file.encoding', 'UTF-8'
-}
-
-tasks.withType(Test) {
-    systemProperty 'file.encoding', 'UTF-8'
+javafx {
+    version = "20.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }

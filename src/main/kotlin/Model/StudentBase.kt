@@ -1,3 +1,5 @@
+package Model
+
 open class StudentBase {
 
     companion object {
@@ -16,6 +18,7 @@ open class StudentBase {
                 println(pair)
                 val (key, value) = pair.split(":", limit=2).map { it.trim() }
                 when (key) {
+                    "id" -> data[key] = value.toInt()
                     "lastName", "firstName", "middleName" -> data[key] = value
                     "phone", "telegram", "email", "github" -> if (value.isNotEmpty()) data[key] = value
                     else -> throw IllegalArgumentException("Unknown key: $key")
@@ -37,7 +40,7 @@ open class StudentBase {
                 println(pair)
                 val (key, value) = pair.split(":", limit=2).map { it.trim() }
                 when (key) {
-                    "lastName", "firstName", "middleName" -> data[key] = value
+                    "id", "lastName", "firstName", "middleName" -> data[key] = value
                     "phone", "telegram", "email", "github" -> if (value.isNotEmpty()) data[key] = value
                     else -> throw IllegalArgumentException("Unknown key: $key")
                 }
@@ -52,27 +55,27 @@ open class StudentBase {
 
         fun isValidPhoneNumber(phone: String): Boolean {
             val regex = Regex("^\\+?[0-9]{10,13}\$")
-            return regex.matches(phone)
+            return regex.matches(phone)||phone.isEmpty()
         }
 
         fun isValidTelegramHandle(telegram: String): Boolean {
             val regex = Regex("^@[a-zA-Z0-9_]{5,32}\$")
-            return regex.matches(telegram)
+            return regex.matches(telegram)||telegram.isEmpty()
         }
 
         fun isValidEmail(email: String): Boolean {
             val regex = Regex("^[\\w.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}\$")
-            return regex.matches(email)
+            return regex.matches(email)||email.isEmpty()
         }
 
         fun isValidGithubUsername(github: String): Boolean {
             val regex = Regex("^[a-zA-Z0-9-]{1,39}\$")
-            return regex.matches(github)
+            return regex.matches(github)||github.isEmpty()
         }
 
         fun isValidName(name: String): Boolean {
-            val regex = Regex("^[¿-ﬂ]{1}[‡-ˇ]{1,39}\$")
-            return regex.matches(name)
+            val regex = Regex("^[–ê-–Ø]{1}[–∞-—è]{1,39}\$")
+            return regex.matches(name)&&name.isNotEmpty()
         }
     }
 }

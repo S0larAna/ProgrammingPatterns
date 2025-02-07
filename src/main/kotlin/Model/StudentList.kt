@@ -1,5 +1,8 @@
-class StudentList(var strategy: StudentListStrategy) {
+package Model
+
+class StudentList(private var strategy: StudentListStrategy) : Subject {
     private var students: MutableList<Student> = mutableListOf()
+    private val observers: MutableList<Observer> = mutableListOf()
 
     fun setStrategy(newStrategy: StudentListStrategy) {
         strategy = newStrategy
@@ -21,17 +24,24 @@ class StudentList(var strategy: StudentListStrategy) {
 
     fun addStudent(student: Student) {
         students.add(student)
+        //TODO фиксануть костыль
+        writeToFile("students", mutableListOf(student))
+        println(student.toString())
+        notifyObservers()
     }
 
     fun replaceStudent(id: Int, newStudent: Student) {
         val index = students.indexOfFirst { it.id == id }
         if (index != -1) {
             students[index] = newStudent
+            notifyObservers()
         }
     }
 
     fun removeStudent(id: Int) {
-        students.removeIf { it.id == id }
+        if (students.removeIf { it.id == id }) {
+            notifyObservers()
+        }
     }
 
     fun get_student_short_count(): Int {
@@ -40,9 +50,25 @@ class StudentList(var strategy: StudentListStrategy) {
 
     fun readFromFile(filePath: String){
         students = strategy.readFromFile(filePath)
+        notifyObservers()
     }
 
-    fun writeToFile(filePath: String){
-        strategy.writeToFile(students, filePath)
+    fun writeToFile(filePath: String, student: MutableList<Student>){
+        strategy.writeToFile(student, filePath)
+    }
+
+    override fun addObserver(observer: Observer) {
+        observers.add(observer)
+    }
+
+    override fun removeObserver(observer: Observer) {
+        observers.remove(observer)
+    }
+
+    override fun notifyObservers() {
+        for (observer in observers) {
+            observer.wholeEntitiesCount()
+            observer.setTableData(students.map { Student_short(it) })
+        }
     }
 }

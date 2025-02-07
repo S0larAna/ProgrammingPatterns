@@ -1,7 +1,9 @@
+package Model
+
 import DBConnection.Students_list_DB
 
 class StudentListDBAdapter(private val dbList: Students_list_DB) : StudentListStrategy {
-    override fun readFromFile(filePath: String): MutableList<Student> {
+    override fun readFromFile(filepath: String): MutableList<Student> {
         return dbList.readStudents()
     }
 

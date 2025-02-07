@@ -1,3 +1,5 @@
+package Model
+
 abstract class Data_list<T : Comparable<T>>(val data: List<T>) {
 
     var selected: MutableSet<Int> = mutableSetOf()
@@ -37,7 +39,7 @@ abstract class Data_list<T : Comparable<T>>(val data: List<T>) {
 
     abstract fun getNames(): Array<Any?>
 
-    fun getData(): Data_table{
+    fun getData(): Data_table {
         val dataArray:MutableList<Array<Any?>> = mutableListOf()
         dataArray.add(getNames())
         for (el in getRows()){

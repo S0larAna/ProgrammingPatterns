@@ -4,22 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23ecb040-6d39-4afc-9006-0316f1d792a8" name="Changes" comment="lab-1 []">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Student.kt" afterDir="false" />
+    <list default="true" id="23ecb040-6d39-4afc-9006-0316f1d792a8" name="Changes" comment="feat[lab 6.2]: fix db init">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/App/MainApp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/App/MainWindow.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/App/StudentListView.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +26,9 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand />
@@ -46,12 +41,35 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Class" />
         <option value="Kotlin Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;S0larAna&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="714c4441-1a7c-4dbc-bdef-7019d64cd1b4" />
+        <option name="url" value="https://github.com/S0larAna/ProgrammingPatterns.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -66,32 +84,120 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ToolWindowGitHub Copilot Chat.ShowToolbar": "false",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "lab6",
     "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "C:/Users/bodya/IdeaProjects/ProgrammingPaterns",
+    "last_opened_file_path": "C:/Users/bodya/IdeaProjects/ProgrammingPatterns",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "File.Encoding",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "sqlite"
+    ]
   }
 }]]></component>
   <component name="RunManager">
-    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <configuration name="ProgrammingPaterns [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ProgrammingPaterns [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="StudentTest.modify phone number to valid one" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;StudentTest.modify phone number to valid one&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="StudentView" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="StudentView" />
       <module name="ProgrammingPaterns.main" />
+      <shortenClasspath name="NONE" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=windows-1251 -Dconsole.encoding=windows-1251" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.ProgrammingPaterns [dependencies]" />
+      <item itemvalue="Gradle.ProgrammingPaterns [test]" />
+      <item itemvalue="Gradle.StudentTest.modify phone number to valid one" />
+      <item itemvalue="Kotlin.StudentView" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.StudentView" />
+        <item itemvalue="Gradle.ProgrammingPaterns [dependencies]" />
+        <item itemvalue="Gradle.StudentTest.modify phone number to valid one" />
+        <item itemvalue="Gradle.ProgrammingPaterns [test]" />
+        <item itemvalue="Kotlin.StudentView" />
       </list>
     </recent_temporary>
   </component>
@@ -108,8 +214,308 @@
       <workItem from="1725477757674" duration="1330000" />
       <workItem from="1725795185213" duration="1922000" />
       <workItem from="1725805022546" duration="603000" />
-      <workItem from="1725897492050" duration="273000" />
+      <workItem from="1725897492050" duration="3892000" />
+      <workItem from="1725908971347" duration="407000" />
+      <workItem from="1725985398819" duration="11000" />
+      <workItem from="1726248016696" duration="5103000" />
+      <workItem from="1726922656255" duration="12142000" />
+      <workItem from="1727161995228" duration="313000" />
+      <workItem from="1728214352229" duration="5933000" />
+      <workItem from="1728234338455" duration="2959000" />
+      <workItem from="1728245100374" duration="599000" />
+      <workItem from="1728246140020" duration="3000" />
+      <workItem from="1729194516363" duration="2000" />
+      <workItem from="1729797960201" duration="113000" />
+      <workItem from="1730018008109" duration="9762000" />
+      <workItem from="1730135182119" duration="1854000" />
+      <workItem from="1730137146885" duration="10519000" />
+      <workItem from="1730744995928" duration="2800000" />
+      <workItem from="1730786557252" duration="4803000" />
+      <workItem from="1733078715781" duration="1974000" />
+      <workItem from="1733247553835" duration="1154000" />
+      <workItem from="1734872283338" duration="12699000" />
+      <workItem from="1734890644366" duration="112000" />
+      <workItem from="1734890815626" duration="8799000" />
+      <workItem from="1736365224015" duration="599000" />
+      <workItem from="1736442956661" duration="10000" />
+      <workItem from="1737053431356" duration="1161000" />
+      <workItem from="1737463104387" duration="961000" />
+      <workItem from="1738521642018" duration="2359000" />
+      <workItem from="1738524945457" duration="7613000" />
     </task>
+    <task id="LOCAL-00001" summary="feat[lab 1]: add Student class&#10;add getters &amp; setters &#10;add Main">
+      <option name="closed" value="true" />
+      <created>1725898363463</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725898363463</updated>
+    </task>
+    <task id="LOCAL-00002" summary="style[lab 1]: remove redundant getters&amp;setters">
+      <option name="closed" value="true" />
+      <created>1725898694901</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1725898694901</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat[lab 1]: add object creation from hash">
+      <option name="closed" value="true" />
+      <created>1725899362437</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1725899362437</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat[lab 1]: add phone number validation function">
+      <option name="closed" value="true" />
+      <created>1725899795958</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1725899795958</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat[lab 1]: refactor Student class, add secondary constructor to build an object from a hashmap">
+      <option name="closed" value="true" />
+      <created>1726925891314</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726925891314</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat[lab 1]: add tests for Student class">
+      <option name="closed" value="true" />
+      <created>1726925983182</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1726925983182</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat[lab 1]: add validation function that checks if a student has github or any other contact information">
+      <option name="closed" value="true" />
+      <created>1726927269384</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1726927269384</updated>
+    </task>
+    <task id="LOCAL-00008" summary="chore[lab 1]: refactor Student class&#10;remove all unnecessary constructors and field initializations">
+      <option name="closed" value="true" />
+      <created>1726928055451</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1726928055451</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat[lab 2]: add object parsing from string">
+      <option name="closed" value="true" />
+      <created>1726930380170</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1726930380170</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat[lab 2]: add getInfo function that shows a short form of student info">
+      <option name="closed" value="true" />
+      <created>1726931373902</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1726931373902</updated>
+    </task>
+    <task id="LOCAL-00011" summary="chore[lab 2]: refactor Student class: add superclass StudentBase and Student_short">
+      <option name="closed" value="true" />
+      <created>1726932340875</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1726932340875</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat[lab 2]: add methods for reading students from a file and writing information to txt">
+      <option name="closed" value="true" />
+      <created>1726933898264</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1726933898264</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat[lab 2.2]: add class DataTable">
+      <option name="closed" value="true" />
+      <created>1726937400088</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1726937400088</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat[lab 2.2]: add class DataList">
+      <option name="closed" value="true" />
+      <created>1726937851571</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1726937851571</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat[lab 2.2]: implement DataTable and DataList, fix Student validation">
+      <option name="closed" value="true" />
+      <created>1728216471408</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1728216471408</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat[lab 2.5]: implement DataListStudentShort">
+      <option name="closed" value="true" />
+      <created>1728217242532</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1728217242532</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat[lab 2.6]: implement template pattern">
+      <option name="closed" value="true" />
+      <created>1728218376209</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1728218376209</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat[lab 3.1]: implement student list creation from txt file">
+      <option name="closed" value="true" />
+      <created>1728221073441</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1728221073441</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feat[lab 3.2]: implement student list creation from json">
+      <option name="closed" value="true" />
+      <created>1728237173591</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1728237173591</updated>
+    </task>
+    <task id="LOCAL-00020" summary="feat[lab 3.3]: implement student list creation from yaml">
+      <option name="closed" value="true" />
+      <created>1730142572715</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1730142572715</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix[lab 3.3]: fix JSON parsing">
+      <option name="closed" value="true" />
+      <created>1730142903535</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1730142903535</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix[lab 3.4]: refactor according to strategy pattern">
+      <option name="closed" value="true" />
+      <created>1730191334406</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1730191334407</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fix[lab 3.5]: fix yaml parsing">
+      <option name="closed" value="true" />
+      <created>1730193465957</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1730193465957</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fix[lab 3.5]: fix code repetition">
+      <option name="closed" value="true" />
+      <created>1730749942756</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1730749942756</updated>
+    </task>
+    <task id="LOCAL-00025" summary="fix[lab 3.5]: refactor Student class">
+      <option name="closed" value="true" />
+      <created>1730787791951</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1730787791951</updated>
+    </task>
+    <task id="LOCAL-00026" summary="ref[lab 3.5]: refactor DataList and DataTable">
+      <option name="closed" value="true" />
+      <created>1730791377165</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1730791377165</updated>
+    </task>
+    <task id="LOCAL-00027" summary="feat[lab 4.1]: add DB and test queries">
+      <option name="closed" value="true" />
+      <created>1734877566358</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1734877566359</updated>
+    </task>
+    <task id="LOCAL-00028" summary="feat[lab 4.2]: add Students_list_DB class">
+      <option name="closed" value="true" />
+      <created>1734880332538</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1734880332538</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feat[lab 4.3]: make DB connection class a singleton">
+      <option name="closed" value="true" />
+      <created>1734880701379</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1734880701379</updated>
+    </task>
+    <task id="LOCAL-00030" summary="feat[lab 5.1]: add StudentDB adapter">
+      <option name="closed" value="true" />
+      <created>1734886530611</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1734886530611</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat[lab 6.1]: add dependencies for ui">
+      <option name="closed" value="true" />
+      <created>1734888064961</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1734888064961</updated>
+    </task>
+    <task id="LOCAL-00032" summary="feat[lab 6.2]: add main window">
+      <option name="closed" value="true" />
+      <created>1734904378326</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1734904378326</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat[lab 6.2]: update dependencies and make adjustments to Main class">
+      <option name="closed" value="true" />
+      <created>1734904422232</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1734904422232</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat[lab 6.2]: fix db init">
+      <option name="closed" value="true" />
+      <created>1734904502632</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1734904502632</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,5 +531,33 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat[lab 2]: add getInfo function that shows a short form of student info" />
+    <MESSAGE value="chore[lab 2]: refactor Student class: add superclass StudentBase and Student_short" />
+    <MESSAGE value="feat[lab 2]: add methods for reading students from a file and writing information to txt" />
+    <MESSAGE value="feat[lab 2.2]: add class DataTable" />
+    <MESSAGE value="feat[lab 2.2]: add class DataList" />
+    <MESSAGE value="feat[lab 2.2]: implement DataTable and DataList, fix Student validation" />
+    <MESSAGE value="feat[lab 2.5]: implement DataListStudentShort" />
+    <MESSAGE value="feat[lab 2.6]: implement template pattern" />
+    <MESSAGE value="feat[lab 3.1]: implement student list creation from txt file" />
+    <MESSAGE value="feat[lab 3.2]: implement student list creation from json" />
+    <MESSAGE value="feat[lab 3.3]: implement student list creation from yaml" />
+    <MESSAGE value="fix[lab 3.3]: fix JSON parsing" />
+    <MESSAGE value="fix[lab 3.4]: refactor according to strategy pattern" />
+    <MESSAGE value="fix[lab 3.5]: fix yaml parsing" />
+    <MESSAGE value="fix[lab 3.5]: fix code repetition" />
+    <MESSAGE value="fix[lab 3.5]: refactor Student class" />
+    <MESSAGE value="ref[lab 3.5]: refactor DataList and DataTable" />
+    <MESSAGE value="feat[lab 4.1]: add DB and test queries" />
+    <MESSAGE value="feat[lab 4.2]: add Students_list_DB class" />
+    <MESSAGE value="feat[lab 4.3]: make DB connection class a singleton" />
+    <MESSAGE value="feat[lab 5.1]: add StudentDB adapter" />
+    <MESSAGE value="feat[lab 6.1]: add dependencies for ui" />
+    <MESSAGE value="feat[lab 6.2]: add main window" />
+    <MESSAGE value="feat[lab 6.2]: update dependencies and make adjustments to Main class" />
+    <MESSAGE value="feat[lab 6.2]: fix db init" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat[lab 6.2]: fix db init" />
   </component>
 </project>

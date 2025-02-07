@@ -1,3 +1,5 @@
+package Model
+
 import java.io.File
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*

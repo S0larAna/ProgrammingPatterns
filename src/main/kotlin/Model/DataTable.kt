@@ -1,3 +1,5 @@
+package Model
+
 class Data_table(private val data: Array<Array<Any?>>) {
 
     fun getRowCount(): Int{

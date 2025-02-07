@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="windows-1251">
+    <file url="file://$PROJECT_DIR$/build.gradle" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/kotlin/App/MainApp.kt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/kotlin/App/StudentListView.kt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/kotlin/App/StudentsView.kt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/kotlin/Main.kt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/kotlin/StudentList.kt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/kotlin/StudentsListJSON.kt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/students.json" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/students.yaml" charset="windows-1251" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>
