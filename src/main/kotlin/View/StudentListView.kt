@@ -6,6 +6,7 @@ import Model.Student_short
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
+import javafx.collections.ListChangeListener
 import javafx.geometry.Insets
 import javafx.scene.control.*
 import javafx.scene.layout.HBox
@@ -128,6 +129,41 @@ class StudentListView: VBox(), Observer {
         editButton.isDisable = true
         deleteButton.isDisable = true
 
+        this.table.selectionModel.selectedItems.addListener(ListChangeListener { change ->
+            val selectedItems = this.table.selectionModel.selectedItems
+            when {
+                selectedItems.size == 1 -> {
+                    editButton.isDisable = false
+                    deleteButton.isDisable = false
+                }
+                selectedItems.size > 1 -> {
+                    editButton.isDisable = true
+                    deleteButton.isDisable = false
+                }
+                else -> {
+                    editButton.isDisable = true
+                    deleteButton.isDisable = true
+                }
+            }
+        })
+
+        addButton.setOnAction {
+            controller.addStudent()
+        }
+
+        editButton.setOnAction {
+            controller.editStudent(this.table.selectionModel.selectedItem.id)
+        }
+
+        deleteButton.setOnAction {
+            val selectedItems = this.table.selectionModel.selectedItems
+            var selectedItemsIds = mutableListOf<Int>()
+            for (item in selectedItems) {
+                selectedItemsIds.add(item.id)
+            }
+            controller.deleteStudent(selectedItemsIds)
+        }
+
         controlArea.children.addAll(addButton, editButton, deleteButton, updateButton)
 
         return controlArea
@@ -138,15 +174,24 @@ class StudentListView: VBox(), Observer {
 
         val prevButton = Button("Предыдущая")
         val nextButton = Button("Следующая")
-        val pageInfo = Label()
+        val pageLabel = Label()
 
-        controls.children.addAll(prevButton, pageInfo, nextButton)
+        prevButton.setOnAction {
+            controller.prevPage()
+        }
+
+        nextButton.setOnAction {
+            controller.nextPage()
+        }
+
+        controls.children.addAll(prevButton, pageLabel, nextButton)
         return controls
     }
 
-    override fun wholeEntitiesCount() {
-        controller.updatePageInfo(paginationControls.children[1] as Label)
+    override fun updatePageInfo(currentPage: Int, totalPages: Int) {
+        (paginationControls.children[1] as Label).text = "Страница $currentPage из $totalPages"
     }
+
 
     override fun setTableData(dataTable: List<Student_short>) {
         val studentObservableList = FXCollections.observableArrayList(dataTable)
