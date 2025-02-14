@@ -1,7 +1,6 @@
 package Model
 
 class StudentList(private var strategy: StudentListStrategy) : Subject {
-    //private var paginationState = PaginationState()
     private var students: MutableList<Student> = mutableListOf()
     private val observers: MutableList<Observer> = mutableListOf()
 
@@ -39,7 +38,6 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
     fun addStudent(student: Student) {
         students.add(student)
         strategy.addStudent(student)
-        //paginationState.updateTotalPages(students)
         println(student.toString())
         notifyObservers()
     }
@@ -56,7 +54,6 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
     fun removeStudent(id: Int) {
         if (students.removeIf { it.id == id }) {
             strategy.removeStudent(id)
-            //paginationState.updateTotalPages(students)
             notifyObservers()
         }
     }
@@ -67,8 +64,6 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
 
     fun readFromFile(){
         students = strategy.readFromFile()
-        //paginationState.updateTotalPages(students)
-        //notifyObservers()
     }
 
     fun writeToFile(student: MutableList<Student>){

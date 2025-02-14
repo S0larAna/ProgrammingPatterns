@@ -55,31 +55,6 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
         return null
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int): Data_list<Student_short> {
-        val sqlQuery = "SELECT * FROM students"
-        var studentList = mutableListOf<Student>()
-        dbManager.connection?.createStatement()?.executeQuery(sqlQuery)?.use { rs ->
-            while (rs.next()) {
-                studentList.add(
-                    Student(hashMapOf(
-                    "id" to rs.getInt("id"),
-                    "lastName" to rs.getString("last_name"),
-                    "firstName" to rs.getString("first_name"),
-                    "middleName" to rs.getString("middle_name"),
-                    "phone" to rs.getString("phone"),
-                    "telegram" to rs.getString("telegram"),
-                    "email" to rs.getString("email"),
-                    "github" to rs.getString("github")
-                ))
-                )
-            }
-        }
-        val startIndex = (k - 1) * n
-        val endIndex = minOf(startIndex + n, studentList.size)
-        val studentShortList = studentList.subList(startIndex, endIndex).map { Student_short(it) }
-        return Data_list_student_short(studentShortList)
-    }
-
     fun addStudent(student: Student) {
         val query = """
         INSERT INTO students
@@ -134,19 +109,5 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
             statement.setInt(1, id)
             statement.executeUpdate()
         }
-    }
-
-    fun getStudentsCount(): Int {
-        dbManager.connection?.use { connection ->
-            val query = "SELECT COUNT(*) as count FROM students"
-
-            connection.createStatement().use { statement ->
-                val resultSet = statement.executeQuery(query)
-                if (resultSet.next()) {
-                    return resultSet.getInt("count")
-                }
-            }
-        }
-        return 0
     }
 }

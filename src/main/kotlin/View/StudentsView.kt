@@ -8,8 +8,6 @@ import javafx.stage.Stage
 class StudentView() : Application() {
     private val studentAppController = StudentAppController(this)
     val studentListTab = Tab("Список студентов")
-//    val secondTab = Tab("Второй раздел")
-//    val thirdTab = Tab("Третий раздел")
     override fun start(primaryStage: Stage) {
         primaryStage.title = "Студенты"
         val tabPane = TabPane()

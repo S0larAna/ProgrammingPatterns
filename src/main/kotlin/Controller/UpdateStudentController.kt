@@ -1,12 +1,7 @@
 package Controller
 
-import DBConnection.DatabaseManager
 import Model.Student
 import Model.StudentList
-import DBConnection.Students_list_DB
-import Model.main
-import javafx.stage.Stage
-import java.sql.Connection
 
 class UpdateStudentController(private val student: Student, private val students: StudentList, private val mainController: StudentListController) {
     fun updateStudent(firstNameField: String, lastNameField: String, middleNameField: String) {

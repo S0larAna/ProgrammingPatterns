@@ -53,9 +53,9 @@ class StudentsListTxt(var filePath: String?): BaseStudentListFile() {
             }
 
         } catch (e: FileNotFoundException) {
-            println("Файл не найден: ${e.message}")
+            println("File not found: ${e.message}")
         } catch (e: IllegalArgumentException) {
-            println("Ошибка при чтении файла: ${e.message}")
+            println("Error while reading: ${e.message}")
         }
         return students
     }

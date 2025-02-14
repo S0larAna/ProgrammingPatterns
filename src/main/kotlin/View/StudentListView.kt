@@ -200,4 +200,24 @@ class StudentListView: VBox(), Observer {
         val studentObservableList = FXCollections.observableArrayList(dataTable)
         table.items.setAll(studentObservableList)
     }
+
+    fun getFilterTextFieldValue(index: Int): String {
+        return (((filterArea.children[index] as VBox).children[1] as HBox).children[1] as TextField).text
+    }
+
+    fun getNameFilterValue(): String {
+        return ((filterArea.children[0] as HBox).children[1] as TextField).text
+    }
+
+    fun getFilterComboBoxValue(index: Int): String {
+        return (((filterArea.children[index] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value
+    }
+
+    fun showErrorAlert(title: String, message: String) {
+        val alert = Alert(Alert.AlertType.ERROR)
+        alert.title = title
+        alert.headerText = null
+        alert.contentText = message
+        alert.showAndWait()
+    }
 }

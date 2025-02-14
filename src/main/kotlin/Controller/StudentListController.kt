@@ -6,13 +6,6 @@ import DBConnection.Students_list_DB
 import Model.*
 import View.StudentListView
 import javafx.collections.FXCollections
-import javafx.collections.ListChangeListener
-import javafx.scene.control.Alert
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.TextField
-import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import java.util.*
 
@@ -38,7 +31,7 @@ class StudentListController(private val studentListView: StudentListView) {
         }
         catch (e: Exception) {
             println(e.message)
-            showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
+            studentListView.showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
         }
         getFilters()
         val studentList = students.get_k_n_student_short_list(paginationState.currentPage, paginationState.itemsPerPage, filterSubstrings, filters)
@@ -84,59 +77,11 @@ class StudentListController(private val studentListView: StudentListView) {
                     StudentListDBAdapter(studentDb)
                 }
                 catch (e: Exception) {
-                    showErrorAlert("db connection error", "Возникла ошибка при подключении к базе данных")
+                    studentListView.showErrorAlert("db connection error", "Возникла ошибка при подключении к базе данных")
                     throw e
                 }
             }
             else -> throw IllegalArgumentException("Unknown strategy type")
-        }
-    }
-
-    private fun setupControlArea() {
-        val addButton = studentListView.controlArea.children[0] as Button
-        val editButton = studentListView.controlArea.children[1] as Button
-        val deleteButton = studentListView.controlArea.children[2] as Button
-        val updateButton = studentListView.controlArea.children[3] as Button
-
-        studentListView.table.selectionModel.selectedItems.addListener(ListChangeListener { change ->
-            val selectedItems = studentListView.table.selectionModel.selectedItems
-            when {
-                selectedItems.size == 1 -> {
-                    editButton.isDisable = false
-                    deleteButton.isDisable = false
-                }
-                selectedItems.size > 1 -> {
-                    editButton.isDisable = true
-                    deleteButton.isDisable = false
-                }
-                else -> {
-                    editButton.isDisable = true
-                    deleteButton.isDisable = true
-                }
-            }
-        })
-
-        addButton.setOnAction {
-            val addStudentWindow = AddStudentWindow(students, this)
-            addStudentWindow.start(Stage())
-        }
-        editButton.setOnAction {
-            val selectedStudentId = studentListView.table.selectionModel.selectedItem.id
-            val selectedStudent = students.getStudentById(selectedStudentId)
-            val addStudentWindow = AddStudentWindow(students, this, selectedStudent,
-                selectedStudent?.let { it1 -> UpdateStudentController(it1, students, this) })
-            addStudentWindow.start(Stage())
-        }
-        deleteButton.setOnAction {
-            val selectedStudents = studentListView.table.selectionModel.selectedItems
-
-            selectedStudents.forEach { student ->
-                students.removeStudent(student.id)}
-            updateTableData()
-        }
-        updateButton.setOnAction {
-            getFilters()
-            updateTableData()
         }
     }
 
@@ -170,19 +115,10 @@ class StudentListController(private val studentListView: StudentListView) {
         )
 
         filterFields.forEach { (key, index) ->
-            filterSubstrings[key] = (((studentListView.filterArea.children[index] as VBox).children[1] as HBox).children[1] as TextField).text
-            filters["has${
-                key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }.removeSuffix("Substring")}"] = FilterOption.fromText((((studentListView.filterArea.children[index] as VBox).children[1] as HBox).children[0] as ComboBox<String>).value)
+            filterSubstrings[key] = studentListView.getFilterTextFieldValue(index)
+            filters["has${key.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }.removeSuffix("Substring")}"] = FilterOption.fromText(studentListView.getFilterComboBoxValue(index))
         }
 
-        filterSubstrings["initialsSubstring"] = ((studentListView.filterArea.children[0] as HBox).children[1] as TextField).text
-    }
-
-    private fun showErrorAlert(title: String, message: String) {
-        val alert = Alert(Alert.AlertType.ERROR)
-        alert.title = title
-        alert.headerText = null
-        alert.contentText = message
-        alert.showAndWait()
+        filterSubstrings["initialsSubstring"] = studentListView.getNameFilterValue()
     }
 }
