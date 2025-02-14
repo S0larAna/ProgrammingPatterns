@@ -4,11 +4,14 @@ import java.io.File
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
-class StudentsListJSON(): StudentListStrategy {
+class StudentsListJSON(var filePath: String?): BaseStudentListFile() {
 
-    override fun readFromFile(filePath: String): MutableList<Student>{
+    override fun readFromFile(): MutableList<Student>{
         var students = mutableListOf<Student>()
         try {
+            if (filePath == null) {
+                throw IllegalArgumentException("File path is null")
+            }
             val jsonString = File(filePath).bufferedReader(Charsets.UTF_8).use {
                 it.readText()
             }
@@ -18,7 +21,10 @@ class StudentsListJSON(): StudentListStrategy {
                     var studentHash = HashMap<String, Any?>()
                     it.jsonObject.entries.forEach {
                         val (key, value) = it.toPair()
-                        studentHash[key] = value.toString().replace("\"", "")
+                        if (key=="id") {
+                            studentHash[key] = value.toString().toInt()
+                        }
+                        else studentHash[key] = value.toString().replace("\"", "")
                         println(studentHash)
                     }
                     println(studentHash["phone"])
@@ -33,16 +39,20 @@ class StudentsListJSON(): StudentListStrategy {
         return students
     }
 
-    override fun writeToFile(students: MutableList<Student>, filePath: String){
+    override fun writeToFile(students: MutableList<Student>){
         try {
             val json = Json {
                 prettyPrint = true
+            }
+            if (filePath == null) {
+                throw IllegalArgumentException("File path is null")
             }
             val file = File(filePath)
             val jsonObject = buildJsonObject {
                 putJsonArray("students") {
                     students.forEach { student ->
                         addJsonObject {
+                            put("id", student.id)
                             put("firstName", student.firstName)
                             put("lastName", student.lastName)
                             put("middleName", student.middleName)

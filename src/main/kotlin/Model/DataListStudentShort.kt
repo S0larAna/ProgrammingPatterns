@@ -37,7 +37,6 @@ class Data_list_student_short(var students: List<Student_short>) : Data_list<Stu
 
     override fun notifyObservers() {
         for (observer in observers) {
-            observer.wholeEntitiesCount()
             observer.setTableData(students)
         }
     }

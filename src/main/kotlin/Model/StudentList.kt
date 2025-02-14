@@ -1,6 +1,7 @@
 package Model
 
 class StudentList(private var strategy: StudentListStrategy) : Subject {
+    //private var paginationState = PaginationState()
     private var students: MutableList<Student> = mutableListOf()
     private val observers: MutableList<Observer> = mutableListOf()
 
@@ -12,7 +13,20 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.find { it.id == id }
     }
 
-    fun get_k_n_student_short_list(k: Int, n: Int): List<Student_short> {
+    fun get_k_n_student_short_list(
+        k: Int,
+        n: Int,
+        filterSubstrings: MutableMap<String, String?>,
+        filterValues: MutableMap<String, FilterOption?>
+    ): List<Student_short> {
+        var filter: StudentFilter = BaseStudentFilter()
+        filter = ContactsFilter(filter, "github", filterSubstrings["gitSubstring"], filterValues["hasGit"]!!)
+        filter = NameFilter(filter, filterSubstrings["initialsSubstring"])
+        filter = ContactsFilter(filter, "email", filterSubstrings["emailSubstring"], filterValues["hasEmail"]!!)
+        filter = ContactsFilter(filter, "telegram", filterSubstrings["telegramSubstring"], filterValues["hasTelegram"]!!)
+        filter = ContactsFilter(filter, "phone", filterSubstrings["phoneSubstring"], filterValues["hasPhone"]!!)
+        students = filter.filter(students).toMutableList()
+
         val startIndex = (k - 1) * n
         val endIndex = minOf(startIndex + n, students.size)
         return students.subList(startIndex, endIndex).map { Student_short(it) }
@@ -24,8 +38,8 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
 
     fun addStudent(student: Student) {
         students.add(student)
-        //TODO фиксануть костыль
-        writeToFile("students", mutableListOf(student))
+        strategy.addStudent(student)
+        //paginationState.updateTotalPages(students)
         println(student.toString())
         notifyObservers()
     }
@@ -34,12 +48,15 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         val index = students.indexOfFirst { it.id == id }
         if (index != -1) {
             students[index] = newStudent
+            strategy.updateStudent(id, newStudent)
             notifyObservers()
         }
     }
 
     fun removeStudent(id: Int) {
         if (students.removeIf { it.id == id }) {
+            strategy.removeStudent(id)
+            //paginationState.updateTotalPages(students)
             notifyObservers()
         }
     }
@@ -48,13 +65,14 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
         return students.size
     }
 
-    fun readFromFile(filePath: String){
-        students = strategy.readFromFile(filePath)
-        notifyObservers()
+    fun readFromFile(){
+        students = strategy.readFromFile()
+        //paginationState.updateTotalPages(students)
+        //notifyObservers()
     }
 
-    fun writeToFile(filePath: String, student: MutableList<Student>){
-        strategy.writeToFile(student, filePath)
+    fun writeToFile(student: MutableList<Student>){
+        strategy.writeToFile(student)
     }
 
     override fun addObserver(observer: Observer) {
@@ -67,7 +85,6 @@ class StudentList(private var strategy: StudentListStrategy) : Subject {
 
     override fun notifyObservers() {
         for (observer in observers) {
-            observer.wholeEntitiesCount()
             observer.setTableData(students.map { Student_short(it) })
         }
     }

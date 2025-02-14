@@ -98,7 +98,7 @@ class Student(
         }
 
     constructor(data: HashMap<String, Any?>) : this(
-        id = data["id"] as Int,
+        id = data["id"] as? Int?: generateId(),
         lastName = data["lastName"] as? String?: throw IllegalArgumentException("Invalid lastName format"),
         firstName = data["firstName"] as? String?: throw IllegalArgumentException("Invalid firstName format"),
         middleName = data["middleName"] as? String?: throw IllegalArgumentException("Illegal middleName"),
@@ -130,8 +130,14 @@ class Student(
             println("Doesn't have GitHub")
         }
         if (!hasAnyContactinfo()) {
-            println("Doesn't have any contact information")
+            //println("Doesn't have any contact information")
         }
+    }
+
+    fun getPropertyValue(propertyName: String): Any? {
+        val property = this::class.java.getDeclaredField(propertyName)
+        property.isAccessible = true
+        return property.get(this)
     }
 
     fun setContacts(phone: String? = this.phone, telegram: String? = this.telegram, email: String? = this.email) {
@@ -168,7 +174,8 @@ class Student(
     }
 
     fun toFileString(): String {
-        return "lastName:$lastName," +
+        return "id:$id,"+
+                "lastName:$lastName," +
                 "firstName:$firstName," +
                 "middleName:$middleName," +
                 "phone:${phone ?: ""}," +

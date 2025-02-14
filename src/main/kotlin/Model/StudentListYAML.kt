@@ -3,10 +3,11 @@ package Model
 import java.io.File
 import org.yaml.snakeyaml.Yaml
 
-class StudentsListYAML(): StudentListStrategy {
-    private var students: MutableList<Student> = mutableListOf()
-
-    override fun readFromFile(filePath: String): MutableList<Student> {
+class StudentsListYAML(var filePath: String?): BaseStudentListFile() {
+    override fun readFromFile(): MutableList<Student> {
+        if (filePath == null) {
+            throw IllegalArgumentException("File path is null")
+        }
         val yaml = Yaml()
         val students = mutableListOf<Student>()
         try {
@@ -22,12 +23,16 @@ class StudentsListYAML(): StudentListStrategy {
         return students
     }
 
-    override fun writeToFile(students: MutableList<Student>, filePath: String) {
+    override fun writeToFile(students: MutableList<Student>) {
         try {
+            if (filePath == null) {
+                throw IllegalArgumentException("File path is null")
+            }
             File(filePath).printWriter().use { out ->
                 out.println("students:")
                 students.forEach { student ->
-                    out.println("  - lastName: \"${student.lastName}\"")
+                    out.println("- id: ${student.id}")
+                    out.println("  lastName: \"${student.lastName}\"")
                     out.println("  firstName: \"${student.firstName}\"")
                     out.println("  middleName: \"${student.middleName}\"")
                     student.phone?.let { out.println("  phone: \"$it\"") }

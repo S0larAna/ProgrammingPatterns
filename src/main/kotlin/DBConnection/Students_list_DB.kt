@@ -128,15 +128,11 @@ class Students_list_DB(private val dbManager: DatabaseManager) {
 
     fun deleteStudent(id: Int) {
         require(id > 0) { "ID студента должен быть положительным числом" }
+        val query = """DELETE FROM students WHERE id = ?"""
 
-        dbManager.connection?.use { connection ->
-            val query = "DELETE FROM students WHERE id = ?"
-
-            connection.prepareStatement(query).use { statement ->
-                statement.setInt(1, id)
-
-                val deletedRows = statement.executeUpdate()
-            }
+        dbManager.connection?.prepareStatement(query)?.use { statement ->
+            statement.setInt(1, id)
+            statement.executeUpdate()
         }
     }
 
