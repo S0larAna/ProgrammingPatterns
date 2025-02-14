@@ -1,2 +1,3 @@
-id:1, lastName:Иванов, firstName:Иван,middleName:Иванович,phone:+79001234567,github:ivanov-github
-id:2,lastName:Петрова,firstName:Анна,middleName:Петровна,email:anna@example.com,telegram:@anna_petrova
+id:1,lastName:Иванов,firstName:Иван,middleName:Иванович,phone:+79001234567,telegram:,email:,github:ivanov-github
+id:2,lastName:Петрова,firstName:Анна,middleName:Петровна,phone:,telegram:@anna_petrova,email:anna@example.com,github:
+id:3,lastName:Бодяновская,firstName:Анастасия,middleName:Витальевна,phone:,telegram:,email:,github:

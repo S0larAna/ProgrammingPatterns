@@ -18,6 +18,7 @@ class StudentListController(private val studentListView: StudentListView) {
 
     init {
         this.getFilters()
+        //students = StudentList(StudentsListJSON("./src/main/resources/students.json"))
         this.updateStrategy("database")
         students.addObserver(studentListView)
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(paginationState.currentPage, paginationState.itemsPerPage, filterSubstrings, filters))
@@ -57,7 +58,14 @@ class StudentListController(private val studentListView: StudentListView) {
     }
 
     fun updateStrategy(type: String) {
-        students = StudentList(selectStrategy(type))
+        if (!::students.isInitialized) {
+            students = StudentList(selectStrategy(type))
+        }
+        else {
+            students.setStrategy(selectStrategy(type))
+            students.readFromFile()
+        }
+        //students = StudentList(selectStrategy(type))
         updateTableData()
     }
 
