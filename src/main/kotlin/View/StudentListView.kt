@@ -10,7 +10,6 @@ import javafx.collections.ListChangeListener
 import javafx.geometry.Insets
 import javafx.scene.control.*
 import javafx.scene.layout.HBox
-import javafx.scene.layout.Region
 import javafx.scene.layout.VBox
 
 class StudentListView: VBox(), Observer {
@@ -162,6 +161,10 @@ class StudentListView: VBox(), Observer {
                 selectedItemsIds.add(item.id)
             }
             controller.deleteStudent(selectedItemsIds)
+        }
+
+        updateButton.setOnAction {
+            controller.updateTableData()
         }
 
         controlArea.children.addAll(addButton, editButton, deleteButton, updateButton)

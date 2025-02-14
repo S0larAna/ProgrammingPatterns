@@ -7,7 +7,6 @@ import Model.*
 import View.StudentListView
 import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
-import javafx.collections.ObservableList
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
@@ -29,8 +28,6 @@ class StudentListController(private val studentListView: StudentListView) {
         this.updateStrategy("database")
         students.addObserver(studentListView)
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(paginationState.currentPage, paginationState.itemsPerPage, filterSubstrings, filters))
-        //setupPaginationControls()
-        //setupControlArea()
     }
 
     fun updateTableData() {
@@ -43,9 +40,10 @@ class StudentListController(private val studentListView: StudentListView) {
             println(e.message)
             showErrorAlert("Ошибка чтения информации о студентах", "Возникла ошибка при чтении из файла")
         }
+        getFilters()
         val studentList = students.get_k_n_student_short_list(paginationState.currentPage, paginationState.itemsPerPage, filterSubstrings, filters)
-        //totalPages = Math.ceil(students.get_student_short_count() / itemsPerPage.toDouble()).toInt()
-        //updatePageInfo(studentListView.paginationControls.children[1] as Label)
+        paginationState.updateTotalPages(students.get_student_short_count())
+        paginationState.updatePageInfo(studentListView)
         dataListStudentShort = Data_list_student_short(studentList)
         val studentObservableList = FXCollections.observableArrayList(studentList)
         dataListStudentShort.notify(studentObservableList, this.studentListView.table)

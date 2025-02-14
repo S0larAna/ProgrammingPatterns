@@ -1,28 +1,28 @@
 package Controller
 
 import AddStudentWindow
-import Model.Data_list_student_short
 import Model.Student
 import Model.StudentBase
 import Model.StudentList
-import javafx.scene.control.TextField
 
 class AddStudentController(private val addStudentView: AddStudentWindow, private val studentList: StudentList, private val studentListController: StudentListController) {
+
     fun validateFields() {
-        val fields = listOf(
-            addStudentView.lastNameField to StudentBase::isValidName,
-            addStudentView.firstNameField to StudentBase::isValidName,
-            addStudentView.middleNameField to StudentBase::isValidName,
-            addStudentView.phoneField to StudentBase::isValidPhoneNumber,
-            addStudentView.telegramField to StudentBase::isValidTelegramHandle,
-            addStudentView.emailField to StudentBase::isValidEmail,
-            addStudentView.githubField to StudentBase::isValidGithubUsername
+        val fields = mapOf<String, (String) -> Boolean>(
+            "lastName" to StudentBase::isValidName,
+            "firstName" to StudentBase::isValidName,
+            "middleName" to StudentBase::isValidName,
+            "phone" to StudentBase::isValidPhoneNumber,
+            "telegram" to StudentBase::isValidTelegramHandle,
+            "email" to StudentBase::isValidEmail,
+            "github" to StudentBase::isValidGithubUsername
         )
 
         var allValid = true
-        for ((field, validator) in fields) {
-            val isValid = validator(field.text)
-            addStudentView.updateValidationState(isValid, field)
+        for ((key, validator) in fields) {
+            val field = addStudentView.fields[key]
+            val isValid = validator(field?.text ?: "")
+            addStudentView.updateValidationState(isValid, field!!)
             if (!isValid) allValid = false
         }
         addStudentView.updateOkButtonState(allValid)
@@ -31,15 +31,13 @@ class AddStudentController(private val addStudentView: AddStudentWindow, private
     fun addStudent() {
         val student = Student(
             hashMapOf(
-                //TODO исправить костыль
-                //"id" to 1,
-                "lastName" to addStudentView.lastNameField.text,
-                "firstName" to addStudentView.firstNameField.text,
-                "middleName" to addStudentView.middleNameField.text,
-                "phone" to (addStudentView.phoneField.text.ifEmpty { null } as Any?),
-                "telegram" to (addStudentView.telegramField.text.ifEmpty { null } as Any?),
-                "email" to (addStudentView.emailField.text.ifEmpty { null } as Any?),
-                "github" to (addStudentView.githubField.text.ifEmpty { null } as Any?)
+                "lastName" to addStudentView.fields["lastName"]?.text,
+                "firstName" to addStudentView.fields["firstName"]?.text,
+                "middleName" to addStudentView.fields["middleName"]?.text,
+                "phone" to addStudentView.fields["phone"]?.text?.ifEmpty { null },
+                "telegram" to addStudentView.fields["telegram"]?.text?.ifEmpty { null },
+                "email" to addStudentView.fields["email"]?.text?.ifEmpty { null },
+                "github" to addStudentView.fields["github"]?.text?.ifEmpty { null }
             )
         )
         studentList.addStudent(student)
