@@ -14,10 +14,3 @@ students:
   telegram: "@maria_p"
   email: "petrova.m@gmail.com"
 
-- id: 3
-  lastName: "Сидоров"
-  firstName: "Дмитрий"
-  middleName: "Александрович"
-  phone: "+79451234567"
-  github: "sid-dmitriy"
-
