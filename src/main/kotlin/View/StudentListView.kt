@@ -35,19 +35,22 @@ class StudentListView: VBox(), Observer {
     private fun createStudentTable(): TableView<Student_short> {
         val table = TableView<Student_short>()
 
-        val idColumn = TableColumn<Student_short, Int>("ID")
-        idColumn.setCellValueFactory { cellData -> SimpleObjectProperty(cellData.value.id) }
+        val columns = listOf(
+            TableColumn<Student_short, Int>("ID").apply {
+                setCellValueFactory { cellData -> SimpleObjectProperty(cellData.value.id) }
+            },
+            TableColumn<Student_short, String>("ФИО").apply {
+                setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.nameWithInitials) }
+            },
+            TableColumn<Student_short, String>("Git").apply {
+                setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.github) }
+            },
+            TableColumn<Student_short, String>("Контакты").apply {
+                setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.contact) }
+            }
+        )
 
-        val nameColumn = TableColumn<Student_short, String>("ФИО")
-        nameColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.nameWithInitials) }
-
-        val gitColumn = TableColumn<Student_short, String>("Git")
-        gitColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.github) }
-
-        val contactsColumn = TableColumn<Student_short, String>("Контакты")
-        contactsColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.contact) }
-
-        table.columns.addAll(idColumn, nameColumn, gitColumn, contactsColumn)
+        table.columns.addAll(columns)
         table.isEditable = false
         table.selectionModel.selectionMode = SelectionMode.MULTIPLE
 
@@ -71,7 +74,6 @@ class StudentListView: VBox(), Observer {
             phoneFilter,
             telegramFilter
         )
-
         return filterArea
     }
 
@@ -164,7 +166,7 @@ class StudentListView: VBox(), Observer {
         }
 
         updateButton.setOnAction {
-            controller.updateTableData()
+            controller.refreshTable()
         }
 
         controlArea.children.addAll(addButton, editButton, deleteButton, updateButton)

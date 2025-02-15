@@ -11,6 +11,10 @@ data class PaginationState(
         totalPages = Math.ceil(students / itemsPerPage.toDouble()).toInt()
     }
 
+    fun updateCurrentPage(page: Int){
+        currentPage = page
+    }
+
     fun updatePageInfo(observer: StudentListView){
         observer.updatePageInfo(currentPage, totalPages)
     }

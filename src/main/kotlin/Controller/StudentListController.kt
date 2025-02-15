@@ -18,7 +18,6 @@ class StudentListController(private val studentListView: StudentListView) {
 
     init {
         this.getFilters()
-        //students = StudentList(StudentsListJSON("./src/main/resources/students.json"))
         this.updateStrategy("database")
         students.addObserver(studentListView)
         dataListStudentShort = Data_list_student_short(students.get_k_n_student_short_list(paginationState.currentPage, paginationState.itemsPerPage, filterSubstrings, filters))
@@ -27,8 +26,6 @@ class StudentListController(private val studentListView: StudentListView) {
     fun updateTableData() {
         try {
             students.readFromFile()
-            paginationState.updateTotalPages(students.get_student_short_count())
-            paginationState.updatePageInfo(studentListView)
         }
         catch (e: Exception) {
             println(e.message)
@@ -57,6 +54,11 @@ class StudentListController(private val studentListView: StudentListView) {
         }
     }
 
+    fun refreshTable() {
+        paginationState.updateCurrentPage(1)
+        updateTableData()
+    }
+
     fun updateStrategy(type: String) {
         if (!::students.isInitialized) {
             students = StudentList(selectStrategy(type))
@@ -65,7 +67,6 @@ class StudentListController(private val studentListView: StudentListView) {
             students.setStrategy(selectStrategy(type))
             students.readFromFile()
         }
-        //students = StudentList(selectStrategy(type))
         updateTableData()
     }
 
